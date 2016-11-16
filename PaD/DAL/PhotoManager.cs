@@ -169,6 +169,10 @@ namespace PaD.DAL
             MonthManager monthManager = new MonthManager();
             monthManager.InvalidateCachedMonthViewModel(viewModel.AuthenticatedUserName, viewModel.Date.Year, viewModel.Date.Month);
 
+            // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
+            ProjectManager projectManager = new ProjectManager();
+            projectManager.InvalidateCachedCurrentStreakDays(viewModel.ProjectId);
+
             return addedPhoto;
         }
         #endregion
@@ -241,6 +245,10 @@ namespace PaD.DAL
                     // Invalidate the CachedMonthViewModel for this user's year/month
                     MonthManager monthManager = new MonthManager();
                     monthManager.InvalidateCachedMonthViewModel(viewModel.AuthenticatedUserName, viewModel.Date.Year, viewModel.Date.Month);
+
+                    // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
+                    ProjectManager projectManager = new ProjectManager();
+                    projectManager.InvalidateCachedCurrentStreakDays(viewModel.ProjectId);
                 }
                 catch (Exception)
                 {
@@ -258,8 +266,13 @@ namespace PaD.DAL
             // Invalidate the CachedMonthViewModel for this user's year/month
             string userName = HttpContext.Current.User.Identity.Name;
 
+            // Invalidate the CachedMonthViewModel for this user's year/month
             MonthManager monthManager = new MonthManager();
             monthManager.InvalidateCachedMonthViewModel(userName, photo.Date.Year, photo.Date.Month);
+
+            // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
+            ProjectManager projectManager = new ProjectManager();
+            projectManager.InvalidateCachedCurrentStreakDays(photo.ProjectId);
         }
         #endregion
 
@@ -298,6 +311,21 @@ namespace PaD.DAL
             IPagedList<PhotoViewModel> photos = search.Execute();
 
             return photos;
+        }
+        #endregion
+
+        #region Report
+        public async Task<int> ReportAsync(int photoId, string reportedBy)
+        {
+            Report report = new Report(DatabaseContext)
+            {
+                PhotoId = photoId,
+                ReportedBy = reportedBy
+            };
+
+            int id = await report.ExecuteAsync();
+
+            return id;
         }
         #endregion
 
@@ -386,21 +414,6 @@ namespace PaD.DAL
             }
 
             return imageFormat;
-        }
-        #endregion
-
-        #region Report
-        public async Task<int> ReportAsync(int photoId, string reportedBy)
-        {
-            Report report = new Report(DatabaseContext)
-            {
-                PhotoId = photoId,
-                ReportedBy = reportedBy
-            };
-
-            int id = await report.ExecuteAsync();
-
-            return id;
         }
         #endregion
     }

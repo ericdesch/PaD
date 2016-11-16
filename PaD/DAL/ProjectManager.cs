@@ -334,6 +334,16 @@ namespace PaD.DAL
         }
         #endregion
 
+        #region InvalidateCachedCurrentStreakDays
+        public void InvalidateCachedCurrentStreakDays(int projectId)
+        {
+            string key = GetCurrentStreakCacheKey(projectId);
+
+            if (Cache.IsSet(key))
+                Cache.Invalidate(key);
+        }
+        #endregion
+
         #region Report
         public async Task<int> ReportAsync(int projectId, string reportedBy)
         {
