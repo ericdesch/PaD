@@ -1,0 +1,84 @@
+﻿@model IEnumerable<PaD.Models.Photo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Thumbnail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tags)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPhotoOfTheMonth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPhotoOfTheYear)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @if (item.Thumbnail != null)
+            {
+                // If there is a PhotoViewModel for this date, display its date and thumbnail.
+                    var base64 = Convert.ToBase64String(item.Thumbnail.Bytes);
+                    var imgSrc = String.Format("data:" + item.Thumbnail.ContentType + ";base64,{0}", base64);
+                    var url = "";// item.GetUrl(Model.Username);
+                <a href="@url">
+                    <img src="@imgSrc" title="@item.Title" alt="@item.Alt" class="rs" />
+                </a>
+            }
+            else
+            {
+            // Otherwise show a square with just the day of the month.
+            // Use a transparent gif where a thumbnail would be to keep layout consistent.
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="rs">
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tags)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPhotoOfTheMonth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPhotoOfTheYear)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { year=item.Date.Year, month=item.Date.Month, day=item.Date.Day }) |
+            @Html.ActionLink("Details", "Details", new { year = item.Date.Year, month = item.Date.Month, day = item.Date.Day }) |
+            @Html.ActionLink("Delete", "Delete", new { year = item.Date.Year, month = item.Date.Month, day = item.Date.Day })
+        </td>
+    </tr>
+}
+
+</table>

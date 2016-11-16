@@ -1,0 +1,30 @@
+﻿@model PaD.ViewModels.HomeIndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h2>Welcome to the new Photo-A-Day Website!</h2>
+    <p>The new site allows you to register and create your own Photo-A-Day project.</p>
+    <p><a href="@Url.Action("Index", "About")" class="btn btn-primary">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @if (Request.IsAuthenticated && !string.IsNullOrEmpty(Model.CurrentStreak))
+        {
+            @Html.Partial("_CurrentStreak", Model.CurrentStreak)
+        }
+        else
+        {
+            @Html.Partial("_RegisterNow")
+        }
+    </div>
+    <div class="col-md-4">
+        @Html.Partial("_FeaturedProject", Model.FeaturedProject)
+    </div>
+    <div class="col-md-4">
+        @Html.Partial("_TopPhotos", Model.TopPhotos)
+    </div>
+</div>

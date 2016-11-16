@@ -1,0 +1,8 @@
+﻿@model double
+
+<!-- Have to specify .noSwipe otherwise can't click on control on Day/Index.cshtml in IE -->
+<span class="rateit noSwipe" data-rateit-resetable="false"
+      data-rateit-backingfld="#AuthenticatedUserRating"
+      data-rateit-readonly="@(User.Identity.IsAuthenticated ? "false" : "true")" style="margin-top: 8px;">
+</span>
+<!-- if you put the hidden field here, rateit gives you an error. Hidden has to be in same page as EditorFor call -->

@@ -1,0 +1,30 @@
+﻿@model List<PaD.ViewModels.PhotoViewModel>
+
+<div class="panel panel-default">
+    <div class="panel-body pre-scrollable">
+        <h2>Top Photos</h2>
+        <table class="table">
+            @foreach (PaD.ViewModels.PhotoViewModel photoViewModel in Model)
+            {
+                var imgSrc = photoViewModel.ThumbnailImage.ImgSrc;
+                var url = photoViewModel.GetUrl();
+
+                <tr>
+                    <td>
+                        <a href='@url'>
+                            <img src="@imgSrc" title="@photoViewModel.Title" alt="@photoViewModel.Alt" class="rs img-responsive" />
+                        </a>
+                    </td>
+                    <td>
+                        <a href='@url'>
+                            @photoViewModel.Title
+                        </a>
+                        <br />
+                        @Html.Raw(" - ")
+                        @photoViewModel.UserName
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

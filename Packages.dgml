@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="PaD.Tests" Label="PaD.Tests" Category="Project" />
+    <Node Id="EntityFramework 6.1.3" Label="EntityFramework 6.1.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 5.2.3" Label="Microsoft.AspNet.Mvc 5.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 3.2.3" Label="Microsoft.AspNet.Razor 3.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 3.2.3" Label="Microsoft.AspNet.WebPages 3.2.3" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 9.0.1" Label="Newtonsoft.Json 9.0.1" Category="Package" />
+    <Node Id="NLog 4.3.5" Label="NLog 4.3.5" Category="Package" />
+    <Node Id="NLog.Config 4.3.5" Label="NLog.Config 4.3.5" Category="Package" />
+    <Node Id="NLog.Schema 4.3.4" Label="NLog.Schema 4.3.4" Category="Package" />
+    <Node Id="PaD" Label="PaD" Category="Project" />
+    <Node Id="Antlr 3.5.0.2" Label="Antlr 3.5.0.2" Category="Package" />
+    <Node Id="bootstrap 3.3.6.1" Label="bootstrap 3.3.6.1" Category="Package" />
+    <Node Id="Bootstrap.v3.Datetimepicker.CSS 4.15.35" Label="Bootstrap.v3.Datetimepicker.CSS 4.15.35" Category="Package" />
+    <Node Id="EntityFramework 6.1.3" Label="EntityFramework 6.1.3" Category="Package" />
+    <Node Id="EntityFramework.MappingAPI 6.1.0.9" Label="EntityFramework.MappingAPI 6.1.0.9" Category="Package" />
+    <Node Id="Foolproof 0.9.4518" Label="Foolproof 0.9.4518" Category="Package" />
+    <Node Id="Hangfire 1.6.0" Label="Hangfire 1.6.0" Category="Package" />
+    <Node Id="Hangfire.Core 1.6.0" Label="Hangfire.Core 1.6.0" Category="Package" />
+    <Node Id="Hangfire.Ninject 1.2.0" Label="Hangfire.Ninject 1.2.0" Category="Package" />
+    <Node Id="Hangfire.SqlServer 1.6.0" Label="Hangfire.SqlServer 1.6.0" Category="Package" />
+    <Node Id="jQuery 2.2.4" Label="jQuery 2.2.4" Category="Package" />
+    <Node Id="jQuery.RateIt 1.0.23" Label="jQuery.RateIt 1.0.23" Category="Package" />
+    <Node Id="jQuery.Validation 1.15.0" Label="jQuery.Validation 1.15.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.Core 2.2.1" Label="Microsoft.AspNet.Identity.Core 2.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.EntityFramework 2.2.1" Label="Microsoft.AspNet.Identity.EntityFramework 2.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Identity.Owin 2.2.1" Label="Microsoft.AspNet.Identity.Owin 2.2.1" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 5.2.3" Label="Microsoft.AspNet.Mvc 5.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 3.2.3" Label="Microsoft.AspNet.Razor 3.2.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.Web.Optimization 1.1.3" Label="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 3.2.3" Label="Microsoft.AspNet.WebPages 3.2.3" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Ajax 3.2.3" Label="Microsoft.jQuery.Unobtrusive.Ajax 3.2.3" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Validation 3.2.3" Label="Microsoft.jQuery.Unobtrusive.Validation 3.2.3" Category="Package" />
+    <Node Id="Microsoft.Owin 3.0.1" Label="Microsoft.Owin 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Host.SystemWeb 3.0.1" Label="Microsoft.Owin.Host.SystemWeb 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security 3.0.1" Label="Microsoft.Owin.Security 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.Cookies 3.0.1" Label="Microsoft.Owin.Security.Cookies 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.Facebook 3.0.1" Label="Microsoft.Owin.Security.Facebook 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.Google 3.0.1" Label="Microsoft.Owin.Security.Google 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Label="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.OAuth 3.0.1" Label="Microsoft.Owin.Security.OAuth 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Owin.Security.Twitter 3.0.1" Label="Microsoft.Owin.Security.Twitter 3.0.1" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="MicrosoftAjax 4.0.20526.0" Label="MicrosoftAjax 4.0.20526.0" Category="Package" />
+    <Node Id="MicrosoftMvcAjax.Mvc5 5.0" Label="MicrosoftMvcAjax.Mvc5 5.0" Category="Package" />
+    <Node Id="Modernizr 2.8.3" Label="Modernizr 2.8.3" Category="Package" />
+    <Node Id="Moment.js 2.14.3" Label="Moment.js 2.14.3" Category="Package" />
+    <Node Id="Newtonsoft.Json 9.0.1" Label="Newtonsoft.Json 9.0.1" Category="Package" />
+    <Node Id="Ninject 3.2.2.0" Label="Ninject 3.2.2.0" Category="Package" />
+    <Node Id="Ninject.MVC5 3.2.1.0" Label="Ninject.MVC5 3.2.1.0" Category="Package" />
+    <Node Id="Ninject.Web.Common 3.2.3.0" Label="Ninject.Web.Common 3.2.3.0" Category="Package" />
+    <Node Id="Ninject.Web.Common.WebHost 3.2.3.0" Label="Ninject.Web.Common.WebHost 3.2.3.0" Category="Package" />
+    <Node Id="NLog 4.3.5" Label="NLog 4.3.5" Category="Package" />
+    <Node Id="NLog.Config 4.3.5" Label="NLog.Config 4.3.5" Category="Package" />
+    <Node Id="NLog.Schema 4.3.4" Label="NLog.Schema 4.3.4" Category="Package" />
+    <Node Id="Owin 1.0" Label="Owin 1.0" Category="Package" />
+    <Node Id="PagedList 1.17.0.0" Label="PagedList 1.17.0.0" Category="Package" />
+    <Node Id="PagedList.Mvc 4.5.0.0" Label="PagedList.Mvc 4.5.0.0" Category="Package" />
+    <Node Id="Respond 1.4.2" Label="Respond 1.4.2" Category="Package" />
+    <Node Id="WebActivatorEx 2.1.0" Label="WebActivatorEx 2.1.0" Category="Package" />
+    <Node Id="WebGrease 1.6.0" Label="WebGrease 1.6.0" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="Microsoft.AspNet.Mvc 5.2.3" Target="Microsoft.AspNet.WebPages 3.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 5.2.3" Target="Microsoft.AspNet.Razor 3.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.3" Target="Microsoft.AspNet.Razor 3.2.3" Category="Package Dependency" />
+    <Link Source="NLog.Config 4.3.5" Target="NLog 4.3.5" Category="Package Dependency" />
+    <Link Source="NLog.Config 4.3.5" Target="NLog.Schema 4.3.4" Category="Package Dependency" />
+    <Link Source="PaD.Tests" Target="EntityFramework 6.1.3" Category="Installed Package" />
+    <Link Source="PaD.Tests" Target="Microsoft.AspNet.Mvc 5.2.3" Category="Installed Package" />
+    <Link Source="PaD.Tests" Target="Newtonsoft.Json 9.0.1" Category="Installed Package" />
+    <Link Source="PaD.Tests" Target="NLog.Config 4.3.5" Category="Installed Package" />
+    <Link Source="bootstrap 3.3.6.1" Target="jQuery 2.2.4" Category="Package Dependency" />
+    <Link Source="Bootstrap.v3.Datetimepicker.CSS 4.15.35" Target="bootstrap 3.3.6.1" Category="Package Dependency" />
+    <Link Source="Bootstrap.v3.Datetimepicker.CSS 4.15.35" Target="Moment.js 2.14.3" Category="Package Dependency" />
+    <Link Source="EntityFramework.MappingAPI 6.1.0.9" Target="EntityFramework 6.1.3" Category="Package Dependency" />
+    <Link Source="Foolproof 0.9.4518" Target="Microsoft.AspNet.Mvc 5.2.3" Category="Package Dependency" />
+    <Link Source="Hangfire 1.6.0" Target="Hangfire.Core 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire 1.6.0" Target="Hangfire.SqlServer 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire 1.6.0" Target="Microsoft.Owin.Host.SystemWeb 3.0.1" Category="Package Dependency" />
+    <Link Source="Hangfire 1.6.0" Target="Hangfire.Core 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire 1.6.0" Target="Hangfire.SqlServer 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire.Core 1.6.0" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Hangfire.Core 1.6.0" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Hangfire.Core 1.6.0" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Hangfire.Ninject 1.2.0" Target="Ninject 3.2.2.0" Category="Package Dependency" />
+    <Link Source="Hangfire.Ninject 1.2.0" Target="Hangfire.Core 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire.SqlServer 1.6.0" Target="Hangfire.Core 1.6.0" Category="Package Dependency" />
+    <Link Source="Hangfire.SqlServer 1.6.0" Target="Hangfire.Core 1.6.0" Category="Package Dependency" />
+    <Link Source="jQuery.RateIt 1.0.23" Target="jQuery 2.2.4" Category="Package Dependency" />
+    <Link Source="jQuery.Validation 1.15.0" Target="jQuery 2.2.4" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.EntityFramework 2.2.1" Target="Microsoft.AspNet.Identity.Core 2.2.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.EntityFramework 2.2.1" Target="EntityFramework 6.1.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.Owin 2.2.1" Target="Microsoft.AspNet.Identity.Core 2.2.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.Owin 2.2.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.Owin 2.2.1" Target="Microsoft.Owin.Security.Cookies 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Identity.Owin 2.2.1" Target="Microsoft.Owin.Security.OAuth 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 5.2.3" Target="Microsoft.AspNet.WebPages 3.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 5.2.3" Target="Microsoft.AspNet.Razor 3.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.1.3" Target="WebGrease 1.6.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.3" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 3.2.3" Target="Microsoft.AspNet.Razor 3.2.3" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Ajax 3.2.3" Target="jQuery 2.2.4" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.3" Target="jQuery 2.2.4" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 3.2.3" Target="jQuery.Validation 1.15.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Host.SystemWeb 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Host.SystemWeb 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Cookies 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Cookies 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Cookies 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Facebook 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Facebook 3.0.1" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Facebook 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Facebook 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Google 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Google 3.0.1" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Google 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Google 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.OAuth 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.OAuth 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.OAuth 3.0.1" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.OAuth 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Twitter 3.0.1" Target="Owin 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Twitter 3.0.1" Target="Microsoft.Owin 3.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Twitter 3.0.1" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="Microsoft.Owin.Security.Twitter 3.0.1" Target="Microsoft.Owin.Security 3.0.1" Category="Package Dependency" />
+    <Link Source="MicrosoftMvcAjax.Mvc5 5.0" Target="MicrosoftAjax 4.0.20526.0" Category="Package Dependency" />
+    <Link Source="Ninject.MVC5 3.2.1.0" Target="Ninject 3.2.2.0" Category="Package Dependency" />
+    <Link Source="Ninject.MVC5 3.2.1.0" Target="Ninject.Web.Common.WebHost 3.2.3.0" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common 3.2.3.0" Target="Ninject 3.2.2.0" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common.WebHost 3.2.3.0" Target="Ninject.Web.Common 3.2.3.0" Category="Package Dependency" />
+    <Link Source="Ninject.Web.Common.WebHost 3.2.3.0" Target="WebActivatorEx 2.1.0" Category="Package Dependency" />
+    <Link Source="NLog.Config 4.3.5" Target="NLog 4.3.5" Category="Package Dependency" />
+    <Link Source="NLog.Config 4.3.5" Target="NLog.Schema 4.3.4" Category="Package Dependency" />
+    <Link Source="PagedList.Mvc 4.5.0.0" Target="PagedList 1.17.0.0" Category="Package Dependency" />
+    <Link Source="WebActivatorEx 2.1.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="WebGrease 1.6.0" Target="Antlr 3.5.0.2" Category="Package Dependency" />
+    <Link Source="WebGrease 1.6.0" Target="Newtonsoft.Json 9.0.1" Category="Package Dependency" />
+    <Link Source="PaD" Target="Bootstrap.v3.Datetimepicker.CSS 4.15.35" Category="Installed Package" />
+    <Link Source="PaD" Target="EntityFramework.MappingAPI 6.1.0.9" Category="Installed Package" />
+    <Link Source="PaD" Target="Foolproof 0.9.4518" Category="Installed Package" />
+    <Link Source="PaD" Target="Hangfire 1.6.0" Category="Installed Package" />
+    <Link Source="PaD" Target="Hangfire.Ninject 1.2.0" Category="Installed Package" />
+    <Link Source="PaD" Target="jQuery.RateIt 1.0.23" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.AspNet.Identity.EntityFramework 2.2.1" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.AspNet.Identity.Owin 2.2.1" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.AspNet.Web.Optimization 1.1.3" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.jQuery.Unobtrusive.Ajax 3.2.3" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.jQuery.Unobtrusive.Validation 3.2.3" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.Owin.Security.Facebook 3.0.1" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.Owin.Security.Google 3.0.1" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.Owin.Security.MicrosoftAccount 3.0.1" Category="Installed Package" />
+    <Link Source="PaD" Target="Microsoft.Owin.Security.Twitter 3.0.1" Category="Installed Package" />
+    <Link Source="PaD" Target="MicrosoftMvcAjax.Mvc5 5.0" Category="Installed Package" />
+    <Link Source="PaD" Target="Modernizr 2.8.3" Category="Installed Package" />
+    <Link Source="PaD" Target="Ninject.MVC5 3.2.1.0" Category="Installed Package" />
+    <Link Source="PaD" Target="NLog.Config 4.3.5" Category="Installed Package" />
+    <Link Source="PaD" Target="PagedList.Mvc 4.5.0.0" Category="Installed Package" />
+    <Link Source="PaD" Target="Respond 1.4.2" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

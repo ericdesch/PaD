@@ -1,0 +1,98 @@
+﻿@model PaD.Models.Photo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Photo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhotoImage.ContentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhotoImage.ContentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.IdentityUserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.IdentityUserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThumbnailImage.ContentType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThumbnailImage.ContentType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tags)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPhotoOfTheMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPhotoOfTheMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPhotoOfTheYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPhotoOfTheYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timestamp)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PhotoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

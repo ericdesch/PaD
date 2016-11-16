@@ -1,0 +1,61 @@
+﻿@model PaD.ViewModels.DayViewModel
+
+<div id="calendarDayView">
+
+    @{
+        // For days with no photo, show a message telling htem there is no photo for the day
+        if (Model != null && Model.PhotoViewModel != null)
+        {
+            var title = Model.PhotoViewModel.Title;
+            var alt = Model.PhotoViewModel.Alt;
+            var imgSrc = Model.PhotoViewModel.PhotoImage.ImgSrc;
+
+            <div class="row" style="margin-top: 2%;">
+                <div class='col-xs-12 text-center'>
+                    <div class="image">
+                        <img src="@imgSrc" title="@title" alt="@alt" class="img-responsive showEditPhotoButtons" />
+                        <div class="editButtons" style="visibility:hidden;">
+                            <a class="btn btn-md btn-default"
+                               href="@Url.Action("Edit", "Photo", new { @year = Model.PhotoViewModel.Date.Year, @month = Model.PhotoViewModel.Date.Month, @day = Model.PhotoViewModel.Date.Day }, null)">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                            <a class="btn btn-md btn-default"
+                               href="@Url.Action("Delete", "Photo", new { @year = Model.PhotoViewModel.Date.Year, @month = Model.PhotoViewModel.Date.Month, @day = Model.PhotoViewModel.Date.Day }, null)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
+                        <div class="photoAwards">
+                            <span class="photoOfTheMonth" style="display: @(Model.PhotoViewModel.IsPhotoOfTheMonth ? "inline" : "none");">
+                                <span class="fa-stack fa-lg" title="Photo of the Month">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </span>
+                            <span class="photoOfTheYear" style="display: @(Model.PhotoViewModel.IsPhotoOfTheYear ? "inline" : "none");">
+                                <span class="fa-stack fa-lg" title="Photo of the Year">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <h4>@title</h4>
+                    @Html.EditorFor(model => model.AuthenticatedUserRating)
+                    @Html.HiddenFor(model => model.AuthenticatedUserRating) @*Required for the rateit control*@
+                    @Html.HiddenFor(model => model.PhotoViewModel.PhotoId)
+                    (<span id="AverageRating">@Html.DisplayFor(model => model.PhotoViewModel.AveRating)</span>/5.0)
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row" style="margin-top: 2%;">
+                <div class='col-xs-12 text-center text-info'>
+                    No photo available for this date.
+                </div>
+            </div>
+        }
+
+}
+
+</div>

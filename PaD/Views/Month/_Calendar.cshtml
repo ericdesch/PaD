@@ -1,0 +1,133 @@
+﻿@model PaD.ViewModels.MonthViewModel
+
+<div id="calendarView">
+
+
+    @{
+        // Get the browser's CultureInfo
+        System.Globalization.CultureInfo cultureInfo = ((Request.UserLanguages != null && Request.UserLanguages.Length > 0) ? new System.Globalization.CultureInfo(Request.UserLanguages.First(), true) : System.Globalization.CultureInfo.CurrentCulture);
+            
+        int firstDayOfWeek = (int)cultureInfo.DateTimeFormat.FirstDayOfWeek; // Sunday in US, Monday in UK, etc
+        DateTime firstDateOfMonth = new DateTime(Model.Year, Model.Month, 1);
+        DateTime lastDateOfMonth = new DateTime(Model.Year, Model.Month, DateTime.DaysInMonth(Model.Year, Model.Month));
+        int startDateDayOfWeek = (int)firstDateOfMonth.DayOfWeek;
+        int lastDateOfMonthDayOfWeek = (int)lastDateOfMonth.DayOfWeek;
+    }
+    <div class="row" style="margin-top: 2%;">
+        <div class='col-xs-12'>
+            <div id="calendar">
+                <!-- Empty cells for the days before the first of the month -->
+                @{
+                
+                    if (firstDayOfWeek > startDateDayOfWeek)
+                    {
+                        startDateDayOfWeek += 7;
+                    }    
+                    for (int i = firstDayOfWeek; i < startDateDayOfWeek; i++)
+                    {
+                        <div class="square empty"></div>
+                    }
+                }
+
+                <!-- Loop through the dates for the month -->
+                @for (DateTime d = firstDateOfMonth; d <= lastDateOfMonth; d = d.AddDays(1))
+                {
+                    <div class="square">
+                        <div class="content">
+                            <div class="table">
+                                <div class="table-cell">
+                                    @{
+                    PaD.ViewModels.PhotoViewModel photoViewModel = Model.PhotoViewModels.Where(p => p.Date == d).FirstOrDefault();
+                    if (photoViewModel != null)
+                    {
+                        // If there is a PhotoViewModel for this date, display its date and thumbnail.
+                        var imgSrc = photoViewModel.ThumbnailImage.ImgSrc;
+                        var url = photoViewModel.GetUrl(Model.UserName);
+                        <p class="date outline">@d.Day</p>
+                                        <a href="@url">
+                                            <img src="@imgSrc" title="@photoViewModel.Title" alt="@photoViewModel.Alt" class="rs showEditPhotoButtons img-responsive" />
+                                            <div class="photoAwards">
+                                                <span class="photoOfTheMonth" style="display: @(photoViewModel.IsPhotoOfTheMonth ? "inline" : "none");" title="Photo of the Month">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                                <span class="photoOfTheYear" style="display: @(photoViewModel.IsPhotoOfTheYear ? "inline" : "none");" title="Photo of the Year">
+                                                    <i class="fa fa-trophy"></i>
+                                                </span>
+                                            </div>
+                                        </a>
+    <div class="editButtons" style="visibility: hidden;">
+        <a class="btn btn-xs btn-hover btn-default"
+            href="@Url.Action("Edit", "Photo", new { @year = photoViewModel.Date.Year, @month = photoViewModel.Date.Month, @day = photoViewModel.Date.Day }, null)">
+            <span class="glyphicon glyphicon-edit"></span>
+        </a>
+        <a class="btn btn-xs btn-hover btn-default"
+            href="@Url.Action("Delete", "Photo", new { @year = photoViewModel.Date.Year, @month = photoViewModel.Date.Month, @day = photoViewModel.Date.Day }, null)">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </div>
+                    }
+                    else
+                    {
+                        // Otherwise show a square with just the day of the month.
+                        // Use a transparent gif where a thumbnail would be to keep layout consistent.
+                        <p class="date">@d.Day</p>
+                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="rs showAddPhotoIcon img-responsive" />
+    <a class="addPhotoIcon btn btn-xs btn-hover btn-default"
+       href="@Url.Action("Create", "Photo", new { @year = d.Year, @month = d.Month, @day = d.Day }, null)"
+       style="visibility: hidden;">
+        <span class="glyphicon glyphicon-plus"></span>
+    </a>
+                    }
+}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <!-- Empty cells for the days after the last day of the month -->
+                @{
+                    // Only need a new row if last day is not last cell in row.
+                    int lastCellDayOfWeek = firstDayOfWeek - 1;
+                    if (lastCellDayOfWeek < 0)
+                    {
+                        lastCellDayOfWeek = 6;
+                    }
+                    if (lastDateOfMonthDayOfWeek != lastCellDayOfWeek)
+                    {
+                        for (int c = lastDateOfMonthDayOfWeek + 1; c % (firstDayOfWeek + 7) != 0; c++)
+                        {
+                            <div class="square empty"></div>
+                        }
+                    }
+                }
+            </div>
+
+            @{
+                // Default to first day of the month.
+                var nextDate = new DateTime(Model.Year, Model.Month, 1);
+                // If there are days with photos, then default to 1 day after the last day for which there is a DayViewModel
+                // (Could be the first of the next month)
+                if (Model.PhotoViewModels != null && Model.PhotoViewModels.Count > 0)
+                {
+                    nextDate = Model.PhotoViewModels.Last().Date.AddDays(1);
+                }
+            }
+
+            <!-- Add a 'Add Photo' button -->
+            <div class="row" style="margin-top: 2%;">
+                <div class='col-xs-12 text-right'>
+                    <div>
+                        <a class="btn btn-md btn-hover btn-default"
+                           href="@Url.Action("Create", "Photo", new { @year = nextDate.Year, @month = nextDate.Month, @day = nextDate.Day }, null)"
+                           style="visibility: @((User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName) ? "visible" : "hidden");">
+                            Add Photo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

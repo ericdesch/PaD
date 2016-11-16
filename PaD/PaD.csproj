@@ -1,0 +1,633 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BB41D151-F746-4F72-87D0-C9812FBEE248}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PaD</RootNamespace>
+    <AssemblyName>PaD</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CuttingEdge.Conditions">
+      <HintPath>..\lib\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fooz.Caching">
+      <HintPath>..\lib\Fooz.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Fooz.Logging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Fooz.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.4\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Ninject, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Ninject.1.2.0\lib\net45\Hangfire.Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HangFire.SqlServer.1.6.4\lib\net45\Hangfire.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.EntityFramework, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.EntityFramework.1.0.1\lib\net45\PagedList.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\NotAControllerNameConstraint.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\UserNameContraint.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DayController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\MonthController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\RatingController.cs" />
+    <Compile Include="Controllers\ThumbnailController.cs" />
+    <Compile Include="CustomFilters\AuthorizeRolesAttribute.cs" />
+    <Compile Include="CustomFilters\CustomRequireHttpsFilter.cs" />
+    <Compile Include="CustomFilters\RemoteRequireHttpsAttribute.cs" />
+    <Compile Include="CustomFilters\RequireEmailConfirmed.cs" />
+    <Compile Include="CustomFilters\TrackPageViewAttribute.cs" />
+    <Compile Include="CustomFilters\FileSizeAttribute.cs" />
+    <Compile Include="DAL\DayManager.cs" />
+    <Compile Include="DAL\DictionaryManager.cs" />
+    <Compile Include="DAL\EntityBase\Add.cs" />
+    <Compile Include="DAL\EntityBase\AddRange.cs" />
+    <Compile Include="DAL\EntityBase\Count.cs" />
+    <Compile Include="DAL\EntityBase\Delete.cs" />
+    <Compile Include="DAL\EntityBase\Find.cs" />
+    <Compile Include="DAL\EntityBase\FindAll.cs" />
+    <Compile Include="DAL\EntityBase\Get.cs" />
+    <Compile Include="DAL\EntityBase\GetAll.cs" />
+    <Compile Include="DAL\EntityBase\Update.cs" />
+    <Compile Include="DAL\EntityManagerBase.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
+    <Compile Include="CustomFilters\HandleConcurrencyExceptionFilter.cs" />
+    <Compile Include="DAL\MonthManager.cs" />
+    <Compile Include="DAL\PhotoImageManager.cs" />
+    <Compile Include="DAL\Photos\ClearPhotoOfTheMonth.cs" />
+    <Compile Include="DAL\Photos\ClearPhotoOfTheYear.cs" />
+    <Compile Include="DAL\Photos\GetPhotoViewModel.cs" />
+    <Compile Include="DAL\Photos\GetProjectDayViewModel.cs" />
+    <Compile Include="DAL\Photos\Report.cs" />
+    <Compile Include="DAL\Photos\Search.cs" />
+    <Compile Include="DAL\PhotoTrackerManager.cs" />
+    <Compile Include="DAL\Months\GetDefaultProjectMonthViewModel.cs" />
+    <Compile Include="DAL\Projects\GetCurrentStreakDays.cs" />
+    <Compile Include="DAL\Days\GetDefaultProjectDayViewModel.cs" />
+    <Compile Include="DAL\Projects\GetDefaultProjectId.cs" />
+    <Compile Include="DAL\Projects\GetFeaturedProject.cs" />
+    <Compile Include="DAL\Projects\GetFirstPhotoDate.cs" />
+    <Compile Include="DAL\Projects\GetHighestRankedPhoto.cs" />
+    <Compile Include="DAL\Projects\GetHighestRankedPhotos.cs" />
+    <Compile Include="DAL\Projects\GetLastPhotoDateById.cs" />
+    <Compile Include="DAL\Projects\Report.cs" />
+    <Compile Include="DAL\ProjectTrackerManager.cs" />
+    <Compile Include="DAL\RatingsManager.cs" />
+    <Compile Include="DAL\Ratings\AddOrUpdateRating.cs" />
+    <Compile Include="DAL\Ratings\GetUserRatingValue.cs" />
+    <Compile Include="DAL\ThumbnailImageManager.cs" />
+    <Compile Include="DAL\Trackers\IncrementPhotoCounter.cs" />
+    <Compile Include="DAL\Trackers\IncrementProjectCounter.cs" />
+    <Compile Include="DAL\UserManager.cs" />
+    <Compile Include="DAL\Users\Report.cs" />
+    <Compile Include="DataContexts\IDbContext.cs" />
+    <Compile Include="DAL\ProjectManager.cs" />
+    <Compile Include="DAL\Projects\GetLastPhotoDate.cs" />
+    <Compile Include="DAL\Projects\GetDefault.cs" />
+    <Compile Include="DataContexts\IdentityDb.cs" />
+    <Compile Include="DataContexts\IdentityMigrations\Configuration.cs" />
+    <Compile Include="DataContexts\IPaDDb.cs" />
+    <Compile Include="DataContexts\LegacyDb.cs" />
+    <Compile Include="DataContexts\PaDDb.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607202033545_spGetCurrentStreak.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607202033545_spGetCurrentStreak.Designer.cs">
+      <DependentUpon>201607202033545_spGetCurrentStreak.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201607212003523_spIncrementProjectCounter.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607212003523_spIncrementProjectCounter.Designer.cs">
+      <DependentUpon>201607212003523_spIncrementProjectCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201607212029559_spIncrementPhotoCounter.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607212029559_spIncrementPhotoCounter.Designer.cs">
+      <DependentUpon>201607212029559_spIncrementPhotoCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201607212252008_spGetDefaultProjectDayViewModel.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607212252008_spGetDefaultProjectDayViewModel.Designer.cs">
+      <DependentUpon>201607212252008_spGetDefaultProjectDayViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201607221849403_spAddOrUpdateRating.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201607221849403_spAddOrUpdateRating.Designer.cs">
+      <DependentUpon>201607221849403_spAddOrUpdateRating.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201609171709269_spGetHighestRankedPhotoId.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201609171709269_spGetHighestRankedPhotoId.Designer.cs">
+      <DependentUpon>201609171709269_spGetHighestRankedPhotoId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\201609172043444_spGetHighestRankedPhotoIds.cs" />
+    <Compile Include="DataContexts\PaDMigrations\201609172043444_spGetHighestRankedPhotoIds.Designer.cs">
+      <DependentUpon>201609172043444_spGetHighestRankedPhotoIds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataContexts\PaDMigrations\Configuration.cs" />
+    <Compile Include="ExtensionMethods\ObjectContextExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\RoleEnumExtensionMethods.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\PhotoManager.cs" />
+    <Compile Include="Infrastructure\AsyncHelper.cs" />
+    <Compile Include="Infrastructure\ControllerNames.cs" />
+    <Compile Include="Infrastructure\DateTimeSpan.cs" />
+    <Compile Include="Infrastructure\HttpPostedFileHelper.cs" />
+    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ExtensionMethods\FileInfoExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\PhotoExtensionMethods.cs" />
+    <Compile Include="Models\Dictionary.cs" />
+    <Compile Include="Models\FeaturedProject.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LegacyModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LegacyModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LegacyModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LegacyModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LegacyPhoto.cs">
+      <DependentUpon>LegacyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LegacyRating.cs">
+      <DependentUpon>LegacyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Photo.cs" />
+    <Compile Include="Models\PhotoImageModels.cs" />
+    <Compile Include="Models\PhotoRating.cs" />
+    <Compile Include="Models\PhotoTracker.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\ProjectTracker.cs" />
+    <Compile Include="Models\ReportedEntityBase.cs" />
+    <Compile Include="Models\ReportedPhoto.cs" />
+    <Compile Include="Models\ReportedProject.cs" />
+    <Compile Include="Models\ReportedUser.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\FeaturedProjectViewModel.cs" />
+    <Compile Include="ViewModels\HomeIndexViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
+    <Compile Include="ViewModels\PhotoPagedListViewModel.cs" />
+    <Compile Include="ViewModels\PhotoViewModels.cs" />
+    <Compile Include="ViewModels\DayViewModel.cs" />
+    <Compile Include="ViewModels\MonthViewModel.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\pad-calendar.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\rateit.css" />
+    <Content Include="Content\star.gif" />
+    <Content Include="Content\star_orig.gif" />
+    <Content Include="dictionary.txt" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="logs\logfile.txt" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <EntityDeploy Include="Models\LegacyModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LegacyModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LegacyModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LegacyModel.edmx</DependentUpon>
+      <LastGenOutput>LegacyModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LegacyModel.edmx.diagram">
+      <DependentUpon>LegacyModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\LegacyModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LegacyModel.edmx</DependentUpon>
+      <LastGenOutput>LegacyModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\google-analytics.js" />
+    <Content Include="Scripts\jquery-3.1.0.js" />
+    <Content Include="Scripts\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
+    <Content Include="Scripts\jquery.rateit.min.js.map" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <Content Include="Scripts\jquery.rateit.js" />
+    <Content Include="Scripts\jquery.rateit.min.js" />
+    <Content Include="Scripts\jquery.touchSwipe.js" />
+    <Content Include="Scripts\jquery.touchSwipe.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\pad-calendar-day.js" />
+    <Content Include="Scripts\pad-calendar-month.js" />
+    <Content Include="Scripts\pad-calendar.js" />
+    <Content Include="Scripts\pad-common.js" />
+    <Content Include="Scripts\pad-validate.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\About\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Photo\Create.cshtml" />
+    <Content Include="Views\Photo\Delete.cshtml" />
+    <Content Include="Views\Photo\Details.cshtml" />
+    <Content Include="Views\Photo\Edit.cshtml" />
+    <Content Include="Views\Photo\Index.cshtml" />
+    <Content Include="Views\Month\_Calendar.cshtml" />
+    <Content Include="Views\Month\_CalendarNavMonth.cshtml" />
+    <Content Include="Views\Day\_CalendarNavDay.cshtml" />
+    <Content Include="Views\Day\_Day.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Month\Index.cshtml" />
+    <Content Include="Views\Day\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\RateIt.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\RateIt.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailCreateProject.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailSent.cshtml" />
+    <Content Include="Views\Photos\Create.cshtml" />
+    <Content Include="Views\Photos\Delete.cshtml" />
+    <Content Include="Views\Photos\Details.cshtml" />
+    <Content Include="Views\Photos\Edit.cshtml" />
+    <Content Include="Views\Photos\Index.cshtml" />
+    <Content Include="Views\Home\_TopPhotos.cshtml" />
+    <Content Include="Views\Shared\_GoogleAnalytics.cshtml" />
+    <Content Include="Views\Home\_FeaturedProject.cshtml" />
+    <Content Include="Views\Shared\_PhotoList.cshtml" />
+    <Content Include="Views\Home\_RegisterNow.cshtml" />
+    <Content Include="Views\Home\_CurrentStreak.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
+    <Content Include="Views\About\Terms.cshtml" />
+    <Content Include="Views\About\Privacy.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Log\" />
+    <Folder Include="Views\Rating\" />
+    <Folder Include="Views\Thumbnail\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201607202033545_spGetCurrentStreak.resx">
+      <DependentUpon>201607202033545_spGetCurrentStreak.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201607212003523_spIncrementProjectCounter.resx">
+      <DependentUpon>201607212003523_spIncrementProjectCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201607212029559_spIncrementPhotoCounter.resx">
+      <DependentUpon>201607212029559_spIncrementPhotoCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201607212252008_spGetDefaultProjectDayViewModel.resx">
+      <DependentUpon>201607212252008_spGetDefaultProjectDayViewModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201607221849403_spAddOrUpdateRating.resx">
+      <DependentUpon>201607221849403_spAddOrUpdateRating.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201609171709269_spGetHighestRankedPhotoId.resx">
+      <DependentUpon>201609171709269_spGetHighestRankedPhotoId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataContexts\PaDMigrations\201609172043444_spGetHighestRankedPhotoIds.resx">
+      <DependentUpon>201609172043444_spGetHighestRankedPhotoIds.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>13031</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49403/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

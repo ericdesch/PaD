@@ -1,0 +1,189 @@
+﻿@model PaD.ViewModels.MonthViewModel
+
+<div class="row" style="margin-top: 5%;">
+    <div class="col-xs-12 text-center">
+        @Html.Partial("_CalendarNavMonth")
+    </div>
+</div>
+
+<div id="calendarDiv" style="display:none;">
+    @Html.Partial("_Calendar", Model)
+</div>
+
+<div id="mobile-indicator"></div>
+
+@section scripts {
+
+    <script src="~/Scripts/pad-calendar.js"></script>
+    <script src="~/Scripts/pad-calendar-month.js"></script>
+    <script>
+
+        function addSwipeTo(selector) {
+            $(selector).swipe("destroy");
+            $(selector).swipe({
+                swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                    if (direction == 'left') {
+                        $("#buttonNext").click();
+                    }
+                    else if (direction == 'right') {
+                        $("#buttonPrevious").click();
+                    }
+                },
+                allowPageScroll: "auto",
+                excludedElements: "button, input, select, textarea, .noSwipe" // remove the <a> tag from excluded elements so we can swipe on the images in the calendar
+            });
+        }
+
+        function addTouchStartTo(selector) {
+
+            // Add click handler to images in calendar.
+            $(selector).find(".showEditPhotoButtons").on("touchstart", function (e) {
+
+                if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+
+                    if ($(this).parent().parent().children('.editButtons').hasClass('hover')) {
+                        // Already visible, let the touch proceed
+                        return true;
+                    }
+                    else {
+                        // Not yet visible.
+                        // Hide any shown buttons (only "hover" over one button at a time).
+                        $(selector).find(".editButtons").css('visibility', 'hidden');
+                        $(selector).find(".editButtons").removeClass('hover');
+                        $(selector).find(".addPhotoIcon").css('visibility', 'hidden');
+                        $(selector).find(".addPhotoIcon").removeClass('hover');
+
+                        // Show the buttons and then prevent the touch so it acts like a hover.
+                        $(this).parent().parent().children('.editButtons').addClass('hover');
+                        $(this).parent().parent().children('.editButtons').css('visibility', 'visible');
+
+                        e.preventDefault();
+
+                        return false;
+                    }
+                }
+
+            });
+
+            // Also for the add icon in empty calendar days.
+            $(selector).find(".showAddPhotoIcon").on("touchstart", function (e) {
+
+                if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+
+                    if ($(this).next('.addPhotoIcon').hasClass('hover')) {
+                        // Already visible, let the touch proceed
+                        return true;
+                    }
+                    else {
+                        // Not yet visible.
+                        // Hide any shown buttons (only "hover" over one button at a time).
+                        $(selector).find(".editButtons").css('visibility', 'hidden');
+                        $(selector).find(".editButtons").removeClass('hover');
+                        $(selector).find(".addPhotoIcon").css('visibility', 'hidden');
+                        $(selector).find(".addPhotoIcon").removeClass('hover');
+
+                        // Show the button and then prevent the touch so it acts like a hover.
+                        $(this).next('.addPhotoIcon').addClass('hover');
+                        $(this).next('.addPhotoIcon').css('visibility', 'visible');
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+            });
+        }
+
+        $(function () {
+
+            $("#calendarDiv").fadeTo('fast', 1);
+
+            $(document).bind('htmlChanged', function (e, data) {
+                addSwipeTo("#calendarView");
+                addTouchStartTo("#calendarView");
+            });
+
+            addSwipeTo("#calendarView");
+            addTouchStartTo("#calendarView");
+        });
+
+        // datetimepicker fires dp.change when setting defaultDate.
+        // set a flag so we know we don't need to refresh the page when this first dp.change fires.
+        var allowUpdate = false;
+
+        var urlFormat = '/{0}/{1}/{2}';
+        var dataDivId = 'calendarView';
+
+        var username = '@Model.UserName';
+        var projectFirstDate = moment('@Model.FirstDate');
+        var projectLastDate = moment('@Model.LastDate');
+
+        // Need to set minDate to the first of the month; otherwise the datetimepicker won't let you select it.
+        // This is a workaround for a bug in datetimepicker
+        var minDate = projectFirstDate.clone().date(1);
+
+        var currDate = moment('@Model.Year' + '/' + @Model.Month + '/1');
+
+        $('#datepicker').datetimepicker({
+            format: "MMMM YYYY",
+            minDate: minDate,
+            maxDate: projectLastDate,
+            useCurrent: false, // important
+            defaultDate: currDate,
+            locale: moment.locale(window.navigator.userLanguage || window.navigator.language)
+        });
+
+        // Any subsequent dp.change can now update the page.
+        allowUpdate = true;
+
+        function isMobileWidth() {
+            return $('#mobile-indicator').is(':visible');
+        }
+
+        // Show/hide the add photo icons to calendar days so user can click to add a photo to the day.
+        $(document).on('mouseenter', '.showAddPhotoIcon', function (e) {
+            // Only show if user is authenticated and viewing their own project month
+            if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+                $(this).next('.addPhotoIcon').css('visibility', 'visible');
+            }
+        });
+
+        $(document).on('mouseleave', '.showAddPhotoIcon', function (e) {
+            $(this).next('.addPhotoIcon').css('visibility', 'hidden');
+        });
+
+        $(document).on('mouseenter', '.addPhotoIcon', function (e) {
+            // Only show if user is authenticated and viewing their own project month
+            if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+                $(this).css('visibility', 'visible');
+            }
+        });
+
+        $(document).on('mouseleave', '.addPhotoIcon', function (e) {
+            $(this).css('visibility', 'hidden');
+        });
+
+        //showEditPhotoButtons
+        $(document).on('mouseenter', '.showEditPhotoButtons', function (e) {
+            // Only show if user is authenticated and viewing their own project month
+            if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+                $(this).parent().parent().children('.editButtons').css('visibility', 'visible');
+            }
+        });
+
+        $(document).on('mouseleave', '.showEditPhotoButtons', function (e) {
+            $(this).parent().parent().children('.editButtons').css('visibility', 'hidden');
+        });
+
+        $(document).on('mouseenter', '.editButtons', function (e) {
+            // Only show if user is authenticated and viewing their own project month
+            if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.UserName ? 1 : 0)' == 1 && !isMobileWidth()) {
+                $(this).css('visibility', 'visible');
+            }
+        });
+
+        $(document).on('mouseleave', '.editButtons', function (e) {
+            $(this).css('visibility', 'hidden');
+        });
+
+    </script>
+}

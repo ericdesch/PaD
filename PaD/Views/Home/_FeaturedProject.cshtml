@@ -1,0 +1,20 @@
+﻿@model PaD.ViewModels.FeaturedProjectViewModel
+
+@{
+    var imgSrc = Model.ThumbnailImage.ImgSrc;
+    var thumbnailTitle = Model.ThumbnailTitle;
+    var url = "/" + Model.UserName;
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Featured Project</h2>
+        <a href='@url'>
+            <figure class="figure">
+                <img src="@imgSrc" class="figure-img img-responsive " title="@thumbnailTitle" alt="@thumbnailTitle">
+                <figcaption class="figure-caption ">@Model.Title</figcaption>
+            </figure>
+        </a>
+    </div>
+</div>
+

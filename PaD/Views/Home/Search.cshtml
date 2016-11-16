@@ -1,0 +1,99 @@
+﻿@model PagedList.IPagedList<PaD.ViewModels.PhotoViewModel>
+
+@{
+    ViewBag.Title = "Search";
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Ajax.BeginForm("Search",
+     new AjaxOptions
+     {
+         HttpMethod = "POST",
+         UpdateTargetId = "searchResults",
+         InsertionMode = InsertionMode.Replace
+     }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @(Html.Label("Search", new { @class = "control-label col-md-2" }))
+            <div class="col-md-10">
+                @Html.TextBox("QueryString", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @(Html.Label("User", new { @class = "control-label col-md-2" }))
+            <div class="col-md-10">
+                @Html.TextBox("UserName", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBox("IsPhotoOfTheMonth")
+                        @Html.Label("Photo of the Month", new { @class = "control-label" })
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBox("IsPhotoOfTheYear")
+                        @Html.Label("Photo of the Year", new { @class = "control-label" })
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+                <input type="reset" value="Reset" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<br />
+
+<div id="searchResults">
+    @if (Model != null && Model.Count > 0)
+    {
+        @Html.Partial("_PhotoList", Model)
+    }
+</div>
+
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(document).on("click", "#contentPager a[href]", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
+                    type: 'POST',
+                    cache: false,
+                    success: function (result) {
+                        $('#searchResults').html(result);
+                    }
+                });
+                return false;
+            });
+
+            $(document).on("click", ":reset", function () {
+                $("#searchResults").html("");
+                return true;
+            });
+        });
+
+    </script>
+}

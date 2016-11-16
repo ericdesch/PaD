@@ -1,0 +1,193 @@
+﻿@using Microsoft.AspNet.Identity
+
+@model PaD.ViewModels.DayViewModel
+
+@{
+    if (Model != null && Model.ProjectCurrentDate != null)
+    {
+        ViewBag.Title = Model.ProjectCurrentDate.ToString("d"); // short date pattern. 3/15/2016 in US
+    }
+}
+
+<div class="row" style="margin-top: 5%;">
+    <div class="col-xs-12 text-center">
+        @Html.Partial("_CalendarNavDay")
+    </div>
+</div>
+
+<div id="dayDiv" style="display:none;">
+    @Html.Partial("_Day", Model)
+</div>
+
+@section scripts {
+
+    <script src="~/Scripts/pad-calendar.js"></script>
+    <script src="~/Scripts/pad-calendar-day.js"></script>
+    <script>
+
+        // datetimepicker fires dp.change when setting defaultDate.
+        // set a flag so we know we don't need to refresh the page when this first dp.change fires.
+        var allowUpdate = false;
+
+        var urlFormat = '/{0}/{1}/{2}/{3}';
+        var dataDivId = 'calendarDayView';
+
+        var username = '@Model.Username';
+        var projectFirstDate = moment('@Model.ProjectFirstDate');
+        var projectLastDate = moment('@Model.ProjectLastDate');
+
+        var currDate = moment('@Model.ProjectCurrentDate');
+
+        //moment.lang(navigator.language);
+        $('#datepicker').datetimepicker({
+            format: "L",
+            minDate: '@Model.ProjectFirstDate',
+            maxDate: '@Model.ProjectLastDate',
+            useCurrent: false, // important
+            defaultDate: currDate,
+            locale: window.navigator.userLanguage || window.navigator.language
+        });
+
+        // Any subsequent dp.change can now update the page.
+        allowUpdate = true;
+
+    </script>
+
+    <script>
+
+    $(function () {
+
+        $("#dayDiv").fadeTo('fast', 1);
+
+        // Respond to the htmlChanged event defined in pad-calendar.js.
+        // Need to call rateit() to get the ratings control to show up when partial is displayed via AJAX.
+        // Also need to re-bind the rated event.
+        $(document).bind('htmlChanged', function (e, data) {
+            $('.rateit').rateit();
+            bindRateIt();
+            addSwipeTo("#calendarDayView");
+            addTouchEndTo("#calendarDayView");
+        });
+
+        // Bind a function that is called when a new rating is selected.
+        bindRateIt();
+        addSwipeTo("#calendarDayView");
+        addTouchEndTo("#calendarDayView");
+
+    });
+
+    var bindRateIt = function () {
+
+        $(".rateit").bind("rated", function () {
+
+            // The PhotoId is a hidden field on the _Day partial view.
+            // Need to get it from there since _Day is updated via AJAX.
+            var photoId = -1;
+            // Get the client Id for the hidden field.
+            var dayClientId = '@Html.IdFor(model => model.PhotoViewModel.PhotoId)';
+            if (document.getElementById(dayClientId) != null) {
+                photoId = $('#' + dayClientId).val();
+            }
+            var value = $(this).rateit('value');
+            var raterUsername = '@User.Identity.GetUserName()';
+
+            $.ajax({
+                url: '/Rating/Add',
+                data: AddAntiForgeryToken({ photoId: photoId, username: raterUsername, value: value }),
+                type: 'POST',
+                success: function (data) {
+                    // Need to refresh Average rating here
+                    $('#AverageRating').text(data.newAverage.toFixed(1));
+                },
+                error: function (jxhr, msg, err) {
+                    alert(msg);
+                }
+            });
+
+        });
+
+    };
+
+    // Flag to indicate we are swiping instead of touching/clicking
+    var swiping = false;
+
+    function addSwipeTo(selector) {
+        $(selector).swipe("destroy");
+        $(selector).swipe({
+            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+
+                swiping = true;
+
+                if (direction == 'left') {
+                    $("#buttonNext").click();
+                }
+                else if (direction == 'right') {
+                    $("#buttonPrevious").click();
+                }
+            },
+            allowPageScroll: "auto"
+        });
+    }
+
+    function addTouchEndTo(selector) {
+
+        // Add touchEnd handler to images in calendar.
+        $(selector).find(".showEditPhotoButtons").on("touchend", function (e) {
+
+            // If we were swiping, ignore this touchUp event. Only want to to chow edit buttons
+            // on touch or click.
+            if (swiping) {
+                // Reset swiping flag and let event proceed.
+                swiping = false;
+                return true;
+            }
+
+            // Not a swipe, so we want to handle it.
+            if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.Username ? 1 : 0)' == 1) {
+
+                // If they are authenticated and viewing one of their own photos, check to see if we are already 
+                // showing the edit buttons.
+                if ($(this).parent().children('.editButtons').hasClass('hover')) {
+                    // Already visible, let the touch proceed
+                    return true;
+                }
+                else {
+                    // Not yet visible.
+                    // Show the buttons and then prevent the touch so it acts like a hover.
+                    $(this).parent().children('.editButtons').addClass('hover');
+                    $(this).parent().children('.editButtons').css('visibility', 'visible');
+
+                    e.preventDefault();
+
+                    return false;
+                }
+            }
+
+        });
+    }
+
+    // showEditPhotoButtons
+    $(document).on('mouseenter', '.showEditPhotoButtons', function (e) {
+        // Only show if user is authenticated and viewing their own project month
+        if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.Username ? 1 : 0)' == 1) {
+            $(this).parent().children('.editButtons').css('visibility', 'visible');
+        }
+    });
+
+    $(document).on('mouseleave', '.showEditPhotoButtons', function (e) {
+        $(this).parent().children('.editButtons').css('visibility', 'hidden');
+    });
+
+    $(document).on('mouseenter', '.editButtons', function (e) {
+        // Only show if user is authenticated and viewing their own project month
+        if ('@( User.Identity.IsAuthenticated && User.Identity.Name == Model.Username ? 1 : 0)' == 1) {
+            $(this).css('visibility', 'visible');
+        }
+    });
+
+    $(document).on('mouseleave', '.editButtons', function (e) {
+        $(this).css('visibility', 'hidden');
+    });
+
+</script>
+}

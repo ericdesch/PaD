@@ -1,0 +1,154 @@
+﻿@model PaD.ViewModels.PhotoCreateViewModel
+
+@{
+    ViewBag.Title = "Add Photo";
+}
+
+<h3>Add Photo</h3>
+<hr />
+
+@using (Html.BeginForm("Create", "Photo", FormMethod.Post, new { enctype = "multipart/form-data", id = "AddPhotoForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.AuthenticatedUserName)
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ValidationSummary(false, "Please correct the following errors:", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhotoImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="btn btn-default btn-file">
+                    Browse...
+                    @Html.TextBoxFor(model => model.PostedFile, new { @class = "form-control", type = "file", onchange = "populateTextBoxes(this.value);", style = "display: none;" })
+                </label>
+                &nbsp;<span class='text text-info' id="lblFileName"></span>
+                @Html.ValidationMessageFor(model => model.PostedFile, "*", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker", @style = "display: inline-block" } })
+                @Html.ValidationMessageFor(model => model.Date, "*", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @id = "tbTitle", @onKeyUp = "SetTextBoxValue('tbAlt', this.value);", @style = "display: inline-block" } })
+                @Html.ValidationMessageFor(model => model.Title, "*", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Alt, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Alt, new { htmlAttributes = new { @class = "form-control", @id = "tbAlt" } })
+                @Html.ValidationMessageFor(model => model.Alt, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tags, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tags, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AuthenticatedUserRating, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AuthenticatedUserRating)
+                @Html.HiddenFor(model => model.AuthenticatedUserRating) @*Required for the rateit control*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <label>
+                        @Html.EditorFor(model => model.IsPhotoOfTheMonth)
+                        @Html.DisplayNameFor(model => model.IsPhotoOfTheMonth)
+                        @Html.ValidationMessageFor(model => model.IsPhotoOfTheYear, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        @Html.EditorFor(model => model.IsPhotoOfTheYear)
+                        @Html.DisplayNameFor(model => model.IsPhotoOfTheYear)
+                        @Html.ValidationMessageFor(model => model.IsPhotoOfTheYear, "", new { @class = "text-danger" })
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="javascript:history.back()" class="btn btn-default">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    <script>
+
+        function populateTextBoxes(path) {
+
+            // Parse the path for the base filename (no extension)
+            // then replace underscores with spaces and use this
+            // as the default image title and alt tag.
+            var pathComps = path.split("\\");
+            var filename = pathComps[pathComps.length - 1]; // Last element
+
+            //SetTextBoxValue('lblFileName', filename);
+            $('#lblFileName').html(filename);
+
+            filename = filename.split(".").shift();
+            var title = filename.replace(/_/g, ' ');
+
+            SetTextBoxValue('tbTitle', title);
+            SetTextBoxValue('tbAlt', title);
+        }
+
+        function SetTextBoxValue(controlid, newvalue) {
+            document.getElementById(controlid).value = newvalue;
+        }
+
+        $(function () {
+
+            var currDate = moment('@Model.Date');
+
+            $('.datepicker').datetimepicker({
+                format: "M/D/YYYY",
+                useCurrent: false, // important
+                defaultDate: currDate
+            });
+
+            // Client-side validation for file size.
+            // Set this so that hidden fields will be validated. Out file input field is display: hidden so we need this to validate it.
+            $.validator.setDefaults({
+                ignore: ""
+            });
+
+        }(jQuery));
+
+    </script>
+}

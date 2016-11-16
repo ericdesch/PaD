@@ -1,0 +1,270 @@
+﻿
+/*.input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5; /*If Placeholder of the input is moved up, rem/modify this.
+    border-radius: 3px;
+    }*/
+
+/* invisible button */
+#buttonPlaceholder {
+    visibility: hidden;
+}
+
+#mobile-indicator {
+    display: none;
+}
+
+.flip-glyphicon {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+
+/* Calendar navigation styles */
+
+@media (max-width: 543px) {
+    
+    .photoAwards .photoOfTheMonth {
+        font-size: 11px;
+    }
+
+    .photoAwards .photoOfTheYear {
+        font-size: 11px;
+    }
+
+    /* Turn on the mobile indicator */
+    #mobile-indicator {
+        display: block;
+    }
+
+    #buttonFirst, #buttonLast {
+        display: none;
+    }
+
+    #buttonPrevious, #buttonNext, #buttonCalendar {
+        height: 26px;
+        font-size: 10px;
+        border-radius: 4px;
+    }
+
+    .input-responsive {
+        height: 26px;
+        width: 130px;
+        font-size: 12px;
+        line-height: 1;
+    }
+}
+
+@media (min-width: 544px) and (max-width: 767px) {
+    .btn-responsive {
+        height: 26px;
+        font-size: 10px;
+        /*padding:2px 4px;
+        line-height: 1;
+        border-radius:3px;*/
+    }
+
+    .input-responsive {
+        height: 26px;
+        width: 130px;
+        font-size: 12px;
+        line-height: 1;
+        /*padding: 2px 5px;*/
+        /*border-radius: 3px;*/
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .btn-responsive {
+    height: 30px;
+    font-size: 9pt;
+    /*padding:4px 9px;
+    line-height: 1.2;*/
+  }
+  .input-responsive {
+    height: 30px;
+    font-size: 13px;
+  }
+}
+
+/* Prevent calendar navigation buttons from wrapping */
+.btn-toolbar {
+    /*white-space: nowrap;*/
+}
+
+  .btn-toolbar .btn-group, .btn-toolbar .btn {
+    float: none;
+    display: inline-block;
+  }
+
+.bootstrap-datetimepicker-widget td.disabled,
+.bootstrap-datetimepicker-widget td.disabled:hover,
+.bootstrap-datetimepicker-widget table td span.disabled,
+.bootstrap-datetimepicker-widget table td span.disabled:hover,
+.bootstrap-datetimepicker-widget table td.disabled,
+.bootstrap-datetimepicker-widget table td.disabled:hover {
+    cursor: pointer !important;
+}
+
+#calendarNavigation {
+    display: inline-block;
+}
+
+#calendarNavigation .btn.disabled {
+    cursor: default;
+}
+
+#calendarNavigation .dropdown-menu li {
+    cursor: pointer;
+}
+
+#calendarNavigation #dropdownMonth {
+    width: 120px;
+}
+
+#calendarNavigation #dropdownYear {
+    width: 100px;
+}
+
+/* Calendar styles */
+#calendar {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+#calendar .square {
+    float: left;
+    position: relative;
+    width: 14.286%;
+    padding-bottom : 14.286%; /* = width for a 1:1 aspect ratio */
+    overflow: hidden;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+
+/* The 7th square in the row is Sunday. Set float: none to start a new row. */
+#calendar .square:nth-child(7n) {
+    float: none;
+    width: auto !important;
+}
+
+#calendar .square > .content {
+    position:absolute;
+    height:100%;
+    width:100%;
+}
+
+#calendar .square > .content > .table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+#calendar .square > .content > .table > .table-cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #f6f6f6;
+}
+
+#calendar .square > .content > .table > .table-cell .rs {
+    width: 90%;
+    margin-left: 5%;
+}
+
+#calendar .square > .empty {
+    color: lightgray;
+    background-color: #eee;
+}
+
+#calendar .square > .content > .table > .table-cell .date {
+    color: #666;
+    position: absolute;
+    z-index: 1;
+    padding: 0px 0px 0px 10%;
+}
+
+#calendar .square > .content > .table > .table-cell .outline
+{
+    color: #fff;
+    text-shadow:
+        -1px -1px 1px #333,
+        1px -1px 1px #333,
+        -1px 1px 1px #333,
+        1px 1px 1px #333;
+}
+
+#calendarView .table-cell .addPhotoIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+#calendarView .table-cell .editButtons {
+    position: absolute;
+    top: 6%;
+    right: 6%;
+}
+
+#calendarDayView .image {
+    position: relative;
+    display: inline-block;
+}
+
+#calendarDayView img {
+    width: 100%;
+}
+
+#calendarDayView .image .editButtons {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+/* These styles apply to buttons on #calendarView and #calendarDayView */
+.editButtons .btn {
+    opacity: .6;
+    filter: alpha(opacity=60);
+}
+
+.editButtons .btn:hover {
+    opacity: .8;
+    filter: alpha(opacity=80);
+}
+
+.photoAwards {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+
+#calendarDayView .photoAwards {
+    right: 5px;
+}
+
+.photoAwards .photoOfTheMonth, .photoAwards .photoOfTheYear {
+    text-shadow: 0 0 2px #000;
+}
+
+    #calendarView .photoAwards {
+        cursor: pointer;
+    }
+
+    #calendarDayView .photoAwards {
+        cursor: default;
+    }
+
+    .photoAwards .photoOfTheMonth {
+        color: silver;
+    }
+
+    .photoAwards .photoOfTheYear {
+        color: gold;
+    }

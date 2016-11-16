@@ -1,0 +1,10 @@
+﻿@model string
+       
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2>Current Streak</h2>
+        <p>You are currently on a streak of @Model.</p>
+        <p>Would you like to see your @Html.ActionLink("Calendar", "Index", "Month", new { @username = User.Identity.Name }, null)?</p>
+        <p>Or @Html.ActionLink("Add a Photo to your Project", "Create", "Photo")?</p>
+    </div>
+</div>
