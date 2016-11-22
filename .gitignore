@@ -193,3 +193,6 @@ logs/
 
 # test files
 TestImages/
+
+# Fooz.Logging
+Fooz.Logging/
