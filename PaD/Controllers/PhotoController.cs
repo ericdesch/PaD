@@ -76,6 +76,15 @@ namespace PaD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AuthenticatedUserName,AuthenticatedUserRating,PostedFile,Date,Title,Alt,Tags,IsPhotoOfTheMonth,IsPhotoOfTheYear")] PhotoCreateViewModel viewModel)
         {
+            PhotoManager photoManager = new PhotoManager();
+
+            // Server side validation to make sure we don't violate unqiue constraint on photo date and project id.
+            Photo photo = await photoManager.FindAsync(p => p.Date == viewModel.Date && p.ProjectId == UserDefaultProjectId);
+            if (photo != null)
+            {
+                ModelState.AddModelError("Date", "There is already a photo for that date.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(viewModel);
@@ -84,7 +93,6 @@ namespace PaD.Controllers
             // Set the ProjectId to be the logged-in user's default ProjectId
             viewModel.ProjectId = UserDefaultProjectId;
 
-            PhotoManager photoManager = new PhotoManager();
             Photo addedPhoto = await photoManager.AddAsync(viewModel);
 
             // Redirect to the month view for the added photo.
