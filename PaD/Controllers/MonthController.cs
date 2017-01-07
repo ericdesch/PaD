@@ -11,17 +11,25 @@ using PaD.DAL;
 using PaD.ViewModels;
 using PaD.Infrastructure;
 using PaD.CustomFilters;
+using PaD.DataContexts;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
     public class MonthController : ControllerBase
     {
+        #region Constructor
+        public MonthController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         #region Index
         // GET: /username/year/month
         //[RequireEmailConfirmed]
         public async Task<ActionResult> Index(string userName, int year = 0, int month = 0)
         {
-            MonthManager monthManager = new MonthManager();
+            MonthManager monthManager = new MonthManager(DatabaseContext, Logger, Cache);
             MonthViewModel viewModel = null;
 
             // Validate the passed date

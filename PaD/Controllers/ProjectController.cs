@@ -10,6 +10,9 @@ using PaD.ViewModels;
 using PaD.Infrastructure;
 using PaD.Models;
 using PaD.CustomFilters;
+using PaD.DataContexts;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
@@ -17,6 +20,12 @@ namespace PaD.Controllers
     [AuthorizeRoles(Role.Admin, Role.User)]
     public class ProjectController : ControllerBase
     {
+        #region Constructor
+        public ProjectController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         #region Create
         public ActionResult Create()
         {
@@ -47,7 +56,7 @@ namespace PaD.Controllers
             // Always default; there can only be one for now.
             viewModel.IsDefault = true;
 
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             Project project = await projectManager.AddAsync(viewModel);
 
             // Update the user's UserDefaultProjectId

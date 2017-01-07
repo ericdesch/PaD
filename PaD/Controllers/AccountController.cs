@@ -15,6 +15,9 @@ using PaD.Models;
 using PaD.DAL;
 using PaD.Infrastructure;
 using PaD.CustomFilters;
+using PaD.DataContexts;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
@@ -24,6 +27,10 @@ namespace PaD.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private IDbContext _databaseContext;
+        private ILoggerProvider _logger;
+        private ICacheProvider _cache;
+
         public AccountController()
         {
         }
@@ -32,6 +39,13 @@ namespace PaD.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        public AccountController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+        {
+            _databaseContext = dbContext;
+            _logger = loggerProvider;
+            _cache = cacheProvider;
         }
 
         public ApplicationSignInManager SignInManager
@@ -202,7 +216,7 @@ namespace PaD.Controllers
         {
             string pluralUserName = userName.TrimEnd(new char[] { 's' });
 
-            DictionaryManager dictionaryManager = new DictionaryManager();
+            DictionaryManager dictionaryManager = new DictionaryManager(_databaseContext, _logger, _cache);
             var dictionary = dictionaryManager.Find(d => d.Word == userName || d.Word == pluralUserName);
             if (dictionary != null)
             {

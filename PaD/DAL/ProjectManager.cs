@@ -20,8 +20,9 @@ namespace PaD.DAL
     public class ProjectManager : EntityManagerBase<Project>
     {
         #region Constructors
-        public ProjectManager() : base() { }
-        public ProjectManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public ProjectManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         #region GetDefaultProjectId

@@ -19,10 +19,10 @@ namespace PaD.DAL
     public class PhotoImageManager : EntityManagerBase<PhotoImage>
     {
         #region Constructors
-        public PhotoImageManager() : base() { }
-        
         // Constructor that takes an IDbContext and an ILogger. NInject will create instances for us.
-        public PhotoImageManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public PhotoImageManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
     }
 }

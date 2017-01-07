@@ -16,14 +16,22 @@ using PaD.ViewModels;
 using PaD.Infrastructure;
 using PaD.DataContexts;
 using PaD.DAL;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
     public class HomeController : ControllerBase
     {
+        #region Constructor
+        public HomeController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         public async Task<ActionResult> Index()
         {
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             HomeIndexViewModel viewModel = new HomeIndexViewModel();
 
             viewModel.TopPhotos = await projectManager.GetHighestRankedPhotosAsync(5);
@@ -46,7 +54,7 @@ namespace PaD.Controllers
         {
             int pageSize = 10;
 
-            PhotoManager photoManager = new PhotoManager();
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
             var photos = await photoManager.SearchAsync(queryString, userName, isPhotoOfTheMonth, isPhotoOfTheYear, page, pageSize);
 
             // Pass values through the ViewBag so we can re-submit them when user clicks the Pager

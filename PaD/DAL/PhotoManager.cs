@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
@@ -20,21 +19,23 @@ using PaD.DAL.EntityBase;
 using PaD.DataContexts;
 using PaD.ViewModels;
 using PaD.Infrastructure;
+using System.Data.Entity;
 
 namespace PaD.DAL
 {
     public class PhotoManager : EntityManagerBase<Photo>
     {
         #region Constructors
-        public PhotoManager() : base() { }
-        public PhotoManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public PhotoManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         #region GetDefaultProjectPhotoViewModel
         public async Task<DayViewModel> GetDefaultProjectPhotoViewModelAsync(string username, int year, int month, int day)
         {
             // Get the default project for this userName
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             ProjectViewModel defaultProject = await projectManager.GetDefaultAsync(username);
             if (defaultProject == null)
             {
@@ -64,7 +65,7 @@ namespace PaD.DAL
         public DayViewModel GetDefaultProjectPhotoViewModel(string username, int year, int month, int day)
         {
             // Get the default project for this userName
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             ProjectViewModel defaultProject = projectManager.GetDefault(username);
             if (defaultProject == null)
             {
@@ -163,14 +164,14 @@ namespace PaD.DAL
             }
 
             // Add the photo.
-            Photo addedPhoto = this.Add(photo);
+            Photo addedPhoto = await this.AddAsync(photo);
 
             // Invalidate the CachedMonthViewModel for this user's year/month
-            MonthManager monthManager = new MonthManager();
+            MonthManager monthManager = new MonthManager(DatabaseContext, Logger, Cache);
             monthManager.InvalidateCachedMonthViewModel(viewModel.AuthenticatedUserName, viewModel.Date.Year, viewModel.Date.Month);
 
             // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             projectManager.InvalidateCachedCurrentStreakDays(viewModel.ProjectId);
 
             return addedPhoto;
@@ -210,7 +211,7 @@ namespace PaD.DAL
                     DatabaseContext.Entry(photo).State = EntityState.Modified;
 
                     // Update the rating if has changed
-                    RatingsManager ratingsManager = new RatingsManager();
+                    RatingsManager ratingsManager = new RatingsManager(DatabaseContext, Logger, Cache);
                     PhotoRating rating = await ratingsManager.FindAsync(c => c.IdentityUserName == viewModel.AuthenticatedUserName &&
                         c.PhotoId == viewModel.PhotoId);
                     if (rating != null && viewModel.AuthenticatedUserRating != rating.Value)
@@ -231,10 +232,10 @@ namespace PaD.DAL
                         // Re-generate the thumbnail
                         photo.GenerateThumbnail();
 
-                        PhotoImageManager photoImageManager = new PhotoImageManager();
+                        PhotoImageManager photoImageManager = new PhotoImageManager(DatabaseContext, Logger, Cache);
                         DatabaseContext.Entry(photo.PhotoImage).State = EntityState.Modified;
 
-                        ThumbnailImageManager thumbnailImageManager = new ThumbnailImageManager();
+                        ThumbnailImageManager thumbnailImageManager = new ThumbnailImageManager(DatabaseContext, Logger, Cache);
                         DatabaseContext.Entry(photo.ThumbnailImage).State = EntityState.Modified;
                     }
 
@@ -243,11 +244,11 @@ namespace PaD.DAL
                     transaction.Commit();
 
                     // Invalidate the CachedMonthViewModel for this user's year/month
-                    MonthManager monthManager = new MonthManager();
+                    MonthManager monthManager = new MonthManager(DatabaseContext, Logger, Cache);
                     monthManager.InvalidateCachedMonthViewModel(viewModel.AuthenticatedUserName, viewModel.Date.Year, viewModel.Date.Month);
 
                     // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
-                    ProjectManager projectManager = new ProjectManager();
+                    ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
                     projectManager.InvalidateCachedCurrentStreakDays(viewModel.ProjectId);
                 }
                 catch (Exception)
@@ -267,11 +268,11 @@ namespace PaD.DAL
             string userName = HttpContext.Current.User.Identity.Name;
 
             // Invalidate the CachedMonthViewModel for this user's year/month
-            MonthManager monthManager = new MonthManager();
+            MonthManager monthManager = new MonthManager(DatabaseContext, Logger, Cache);
             monthManager.InvalidateCachedMonthViewModel(userName, photo.Date.Year, photo.Date.Month);
 
             // Invalidate the InvalidateCachedCurrentStreakDays for this user's project
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             projectManager.InvalidateCachedCurrentStreakDays(photo.ProjectId);
         }
         #endregion

@@ -19,10 +19,11 @@ namespace PaD.DAL
     public class ThumbnailImageManager : EntityManagerBase<ThumbnailImage>
     {
         #region Constructors
-        public ThumbnailImageManager() : base() { }
 
         // Constructor that takes an IDbContext and an ILogger. NInject will create instances for us.
-        public ThumbnailImageManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public ThumbnailImageManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
     }
 }

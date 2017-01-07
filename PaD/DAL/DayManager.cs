@@ -19,8 +19,9 @@ namespace PaD.DAL
     public class DayManager : EntityManagerBase<Photo>
     {
         #region Constructors
-        public DayManager() : base() { }
-        public DayManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public DayManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         #region GetDefaultProjectDayViewModel

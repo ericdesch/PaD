@@ -15,12 +15,20 @@ using PaD.DataContexts;
 using PaD.Infrastructure;
 using PaD.ViewModels;
 using PaD.CustomFilters;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
     [AuthorizeRoles(Role.Admin, Role.ProjectOwner, Role.User)]
     public class RatingController : ControllerBase
     {
+        #region Constructor
+        public RatingController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         #region Add
         // POST: /Ratings/Add/
         [HttpPost]
@@ -32,7 +40,7 @@ namespace PaD.Controllers
                 throw new ArgumentException();
             }
 
-            RatingsManager ratingsManager = new RatingsManager();
+            RatingsManager ratingsManager = new RatingsManager(DatabaseContext, Logger, Cache);
 
             // Add the new rating
             double newAverage = await ratingsManager.AddOrUpdateRatingAsync(photoId, username, value);

@@ -19,10 +19,11 @@ namespace PaD.DAL
     public class RatingsManager : EntityManagerBase<PhotoRating>
     {
         #region Constructors
-        public RatingsManager() : base() { }
 
         // Constructor that takes an IDbContext and an ILogger. NInject will create instances for us.
-        public RatingsManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public RatingsManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         public async Task<double> AddOrUpdateRatingAsync(int photoId, string userName, double value)

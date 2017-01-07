@@ -15,6 +15,8 @@ using PaD.DataContexts;
 using PaD.Infrastructure;
 using PaD.ViewModels;
 using PaD.CustomFilters;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
@@ -22,6 +24,12 @@ namespace PaD.Controllers
     [AuthorizeRoles(Role.Admin, Role.ProjectOwner)]
     public class PhotoController : ControllerBase
     {
+        #region Constructor
+        public PhotoController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         #region Index
         // GET: Photos
         //public async Task<ActionResult> Index()
@@ -61,7 +69,7 @@ namespace PaD.Controllers
         {
             PhotoCreateViewModel viewModel = new PhotoCreateViewModel();
 
-            viewModel.Date = await GetDefaultCreateDate(year, month, day);
+            viewModel.Date = await GetDefaultCreateDateAsync(year, month, day);
             viewModel.AuthenticatedUserName = User.Identity.Name;
             // Default rating is 3
             viewModel.AuthenticatedUserRating = 3;
@@ -76,7 +84,7 @@ namespace PaD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "AuthenticatedUserName,AuthenticatedUserRating,PostedFile,Date,Title,Alt,Tags,IsPhotoOfTheMonth,IsPhotoOfTheYear")] PhotoCreateViewModel viewModel)
         {
-            PhotoManager photoManager = new PhotoManager();
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
 
             // Server side validation to make sure we don't violate unqiue constraint on photo date and project id.
             Photo photo = await photoManager.FindAsync(p => p.Date == viewModel.Date && p.ProjectId == UserDefaultProjectId);
@@ -111,7 +119,7 @@ namespace PaD.Controllers
             }
 
             // Get the photo for the logged-in user's default project on this date.
-            PhotoManager photoManager = new PhotoManager();
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
             var viewModel = await photoManager.GetPhotoEditViewModelAsync(User.Identity.Name, UserDefaultProjectId, (int)year, (int)month, (int)day);
 
             if (viewModel == null)
@@ -130,7 +138,7 @@ namespace PaD.Controllers
         public async Task<ActionResult> Edit([Bind(Include = "AuthenticatedUserRating,PhotoId,ProjectId,PostedFile,Date,Title,Alt,Tags,IsPhotoOfTheMonth,IsPhotoOfTheYear")] PhotoEditViewModel viewModel)
         {
             // Get the Photo that we are editing
-            PhotoManager photoManager = new PhotoManager();
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
             Photo photo = await photoManager.GetAsync(viewModel.PhotoId);
 
             if (photo == null)
@@ -167,7 +175,7 @@ namespace PaD.Controllers
 
             // Get the photo for the logged-in user's default project on this date.
             int projectId = UserDefaultProjectId;
-            PhotoManager photoManger = new PhotoManager();
+            PhotoManager photoManger = new PhotoManager(DatabaseContext, Logger, Cache);
             var photo = await photoManger.FindAsync(p => p.Date == date && p.ProjectId == projectId);
 
             if (photo == null)
@@ -187,7 +195,7 @@ namespace PaD.Controllers
             DateTime date = new DateTime(year, month, day);
 
             // Get the photo for the logged-in user's default project on this date.
-            PhotoManager photoManger = new PhotoManager();
+            PhotoManager photoManger = new PhotoManager(DatabaseContext, Logger, Cache);
             var photo = await photoManger.FindAsync(p => p.Date == date && p.ProjectId == UserDefaultProjectId);
 
             if (photo == null)
@@ -204,7 +212,7 @@ namespace PaD.Controllers
         #endregion
 
         #region Private Methods
-        private async Task<DateTime> GetDefaultCreateDate(int? year, int? month, int? day)
+        private async Task<DateTime> GetDefaultCreateDateAsync(int? year, int? month, int? day)
         {
             DateTime date = new DateTime();
             string dateString = string.Format("{0}/{1}/{2}", year, month, day);
@@ -215,7 +223,7 @@ namespace PaD.Controllers
             {
                 string username = User.Identity.Name;
 
-                ProjectManager projectManager = new ProjectManager();
+                ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
                 date = await projectManager.GetLastPhotoDateAsync(username);
                 date = date.AddDays(1);
             }

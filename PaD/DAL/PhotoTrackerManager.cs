@@ -20,8 +20,9 @@ namespace PaD.DAL
     public class PhotoTrackerManager : EntityManagerBase<ProjectTracker>
     {
         #region Constructors
-        public PhotoTrackerManager() : base() { }
-        public PhotoTrackerManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public PhotoTrackerManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         public long IncrementCounter(int photoId)
@@ -51,7 +52,7 @@ namespace PaD.DAL
             Logger.Log("PhotoTrackerManager.IncrementCounter({0}, {1}, {2}, {3})", username, year, month, day);
 
             // Get the photo for the passed parameters.
-            PhotoManager photoManager = new PhotoManager();
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
 
             try
             {

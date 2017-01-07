@@ -23,14 +23,14 @@ namespace PaD.DAL
         protected readonly ILoggerProvider Logger;
         protected readonly ICacheProvider Cache;
 
-        public EntityManagerBase()
-        {
-            // Get the class that IDbContext, ILogger resolves to as bound in NinjectDependencyResolver.
-            // Allow this way instead of using constructor injection.
-            DatabaseContext = (IDbContext)DependencyResolver.Current.GetService(typeof(IDbContext));
-            Logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
-            Cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
-        }
+        //public EntityManagerBase()
+        //{
+        //    //// Get the class that IDbContext, ILogger resolves to as bound in NinjectDependencyResolver.
+        //    //// Allow this way instead of using constructor injection.
+        //    //DatabaseContext = (IDbContext)DependencyResolver.Current.GetService(typeof(IDbContext));
+        //    //Logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
+        //    //Cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
+        //}
 
         public EntityManagerBase(IDbContext databaseContext, ILoggerProvider logger, ICacheProvider cache)
         {

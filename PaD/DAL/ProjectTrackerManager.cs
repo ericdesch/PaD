@@ -20,8 +20,9 @@ namespace PaD.DAL
     public class ProjectTrackerManager : EntityManagerBase<ProjectTracker>
     {
         #region Constructors
-        public ProjectTrackerManager() : base() { }
-        public ProjectTrackerManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public ProjectTrackerManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         #region IncrementCounter
@@ -62,7 +63,7 @@ namespace PaD.DAL
             Logger.Log("ProjectTrackerManager.IncrementCounter({0}, {1}, {2})", username, year, month);
 
             // Get the user's default project.
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
 
             try
             {

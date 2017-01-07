@@ -19,15 +19,26 @@ namespace PaD.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
-        readonly IDbContext databaseContext = new PaDDb();
-         ILoggerProvider logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
-         ICacheProvider cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
+        private IDbContext _databaseContext;
+        private ILoggerProvider _logger;
+        private ICacheProvider _cache;
+
+        public HomeControllerTest(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider)
+        {
+            _databaseContext = dbContext;
+            _logger = loggerProvider;
+            _cache = cacheProvider;
+        }
+
+        public HomeControllerTest()
+        {
+        }
 
         [TestMethod]
         public async Task Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_databaseContext, _logger, _cache);
 
             // Act
             ViewResult result = await controller.Index() as ViewResult;
@@ -40,7 +51,7 @@ namespace PaD.Tests.Controllers
         public void About()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_databaseContext, _logger, _cache);
 
             // Act
             ViewResult result = controller.About() as ViewResult;
@@ -53,7 +64,7 @@ namespace PaD.Tests.Controllers
         public void Contact()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(_databaseContext, _logger, _cache);
 
             // Act
             ViewResult result = controller.Contact() as ViewResult;

@@ -15,21 +15,27 @@ using PaD.DataContexts;
 using PaD.ViewModels;
 using PaD.Infrastructure;
 using PaD.DAL.Users;
+using Fooz.Logging;
+using Fooz.Caching;
 
 namespace PaD.DAL
 {
-    public class UserManager : EntityManagerBase<ApplicationUser>
+    public class UserManager
     {
-        private IdentityDb _identityDb;
+        //private IdentityDb _identityDb;
 
         #region Constructors
-        public UserManager() : base() 
+        public UserManager()
         {
-            _identityDb = new IdentityDb();
+            //_identityDb = new IdentityDb();
         }
 
         //// Constructor that takes an IDbContext and an ILogger. NInject will create instances for us.
-        //public UserManager(IDbContext databaseContext, ILoggerProvider logger) : base(databaseContext, logger) { }
+        //public UserManager(IDbContext databaseContext, ILoggerProvider logger, ICacheProvider cache)
+        //    : base(databaseContext, logger, cache)
+        //{
+        //    //_identityDb = new IdentityDb();
+        //}
         #endregion
 
         /// <summary>
@@ -40,36 +46,45 @@ namespace PaD.DAL
         /// userName has not been confirmed or if the account for the passed username is not found.</returns>
         public bool EmailConfirmed(string userName)
         {
-            var userStore = new UserStore<ApplicationUser>(_identityDb);
-            var userManager = new UserManager<ApplicationUser>(userStore);
+            using (IdentityDb identityDb = new IdentityDb())
+            {
+                var userStore = new UserStore<ApplicationUser>(identityDb);
+                var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var applicationUser =  userManager.FindByName(userName);
-            
-            if (applicationUser == null)
-                return false;
+                var applicationUser = userManager.FindByName(userName);
 
-            return applicationUser.EmailConfirmed;
+                if (applicationUser == null)
+                    return false;
+
+                return applicationUser.EmailConfirmed;
+            }
         }
 
         public IdentityResult AddToRole(string userName, Role role)
         {
-            var userStore = new UserStore<ApplicationUser>(_identityDb);
-            var userManager = new UserManager<ApplicationUser>(userStore);
+            using (IdentityDb identityDb = new IdentityDb())
+            {
+                var userStore = new UserStore<ApplicationUser>(identityDb);
+                var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var user = userManager.FindByName(userName);
+                var user = userManager.FindByName(userName);
 
-            return userManager.AddToRole(user.Id, role.Description());
+                return userManager.AddToRole(user.Id, role.Description());
+            }
         }
 
         public async Task<int> ReportUser(string userName, string reportedBy)
         {
-            Report report = new Report(_identityDb)
+            using (IdentityDb identityDb = new IdentityDb())
             {
-                UserName = userName,
-                ReportedBy = reportedBy
-            };
+                Report report = new Report(identityDb)
+                {
+                    UserName = userName,
+                    ReportedBy = reportedBy
+                };
 
-            return await report.ExecuteAsync();
+                return await report.ExecuteAsync();
+            }
         }
     }
 }

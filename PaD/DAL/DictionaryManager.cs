@@ -15,8 +15,9 @@ namespace PaD.DAL
     public class DictionaryManager : EntityManagerBase<Dictionary>
     {
         #region Constructors
-        public DictionaryManager() : base() { }
-        public DictionaryManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public DictionaryManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
     }
 }

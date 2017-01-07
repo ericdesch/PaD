@@ -24,6 +24,7 @@ namespace PaD.Controllers
     {
         private const string DEFAULT_PROJECT_ID = "DEFAULT_PROJECT_ID";
 
+        protected readonly IDbContext DatabaseContext;
         protected readonly ILoggerProvider Logger;
         protected readonly ICacheProvider Cache;
 
@@ -39,7 +40,7 @@ namespace PaD.Controllers
                 if (Session[key] == null || !int.TryParse(Session[key].ToString(), out projId))
                 {
                     // If not already stored in Session or unable to parse it, get it from the database
-                    ProjectManager projectManager = new ProjectManager();
+                    ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
                     projId = projectManager.GetDefaultProjectId(User.Identity.Name);
 
                     // Store the defulat project id to the Session object for future retrieval.
@@ -56,21 +57,22 @@ namespace PaD.Controllers
             }
         }
 
-        public ControllerBase()
+        // Constructor that takes an IDbContext, ILogger, and an ICacheProvider. NInject will create instances for us.
+        public ControllerBase(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider)
         {
-            // Get the class that ILogger, ICacheProvider resolves to as bound in NinjectDependencyResolver.
-            // Do it this way instead of using constructor injection because we don't want the
-            // controller to have to know anything about contexts, etc.
-            Logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
-            Cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
+            DatabaseContext = dbContext;
+            Logger = loggerProvider;
+            Cache = cacheProvider;
         }
 
-        // Constructor that takes an ILogger and an ICacheProvider. NInject will create instances for us.
-        public ControllerBase(ILoggerProvider logger, ICacheProvider cache)
-        {
-            Logger = logger;
-            Cache = cache;
-        }
+        //public ControllerBase()
+        //{
+        //    // Get the class that ILogger, ICacheProvider resolves to as bound in NinjectDependencyResolver.
+        //    // Do it this way instead of using constructor injection because we don't want the
+        //    // controller to have to know anything about contexts, etc.
+        //    Logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
+        //    Cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
+        //}
 
         private string GetKey()
         {

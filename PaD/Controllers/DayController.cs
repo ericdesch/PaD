@@ -10,11 +10,19 @@ using Fooz.Logging;
 using PaD.DAL;
 using PaD.ViewModels;
 using PaD.Infrastructure;
+using PaD.DataContexts;
+using Fooz.Caching;
 
 namespace PaD.Controllers
 {
     public class DayController : ControllerBase
     {
+        #region Constructor
+        public DayController(IDbContext dbContext, ILoggerProvider loggerProvider, ICacheProvider cacheProvider) 
+            : base(dbContext, loggerProvider, cacheProvider)
+        { }
+        #endregion
+
         #region Index
         // GET: /username/year/month/day
         public async Task<ActionResult> Index(string username, int year, int month, int day)
@@ -22,7 +30,7 @@ namespace PaD.Controllers
             //Logger.Log("GET: /{0}/{1}/{2}/{3}", username, year, month, day);
 
             // Get the photo for the passed parameters.
-            DayManager dayManager = new DayManager();
+            DayManager dayManager = new DayManager(DatabaseContext, Logger, Cache);
 
             DayViewModel viewModel = null;
             try
@@ -42,7 +50,7 @@ namespace PaD.Controllers
             {
                 try
                 {
-                    RatingsManager ratingsManager = new RatingsManager();
+                    RatingsManager ratingsManager = new RatingsManager(DatabaseContext, Logger, Cache);
                     viewModel.AuthenticatedUserRating = await ratingsManager.GetUserRatingValueAsync(viewModel.PhotoViewModel.PhotoId, User.Identity.Name);
                 }
                 catch (Exception ex)

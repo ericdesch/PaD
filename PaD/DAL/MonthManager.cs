@@ -21,14 +21,15 @@ namespace PaD.DAL
     public class MonthManager : EntityManagerBase<Project>
     {
         #region Constructors
-        public MonthManager() : base() { }
-        public MonthManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) : base(context, logger, cache) { }
+        public MonthManager(IDbContext context, ILoggerProvider logger, ICacheProvider cache) 
+            : base(context, logger, cache)
+        { }
         #endregion
 
         #region GetDefaultProjectMonthViewModel
         public async Task<MonthViewModel> GetDefaultProjectMonthViewModelAsync(string userName, int year, int month)
         {
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
 
             MonthViewModel viewModel = GetCachedMonthViewModel(userName, year, month);
             if (viewModel != null)
@@ -108,7 +109,7 @@ namespace PaD.DAL
             // Today
             DateTime nowDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
-            ProjectManager projectManager = new ProjectManager();
+            ProjectManager projectManager = new ProjectManager(DatabaseContext, Logger, Cache);
             DateTime lastDate = projectManager.GetLastPhotoDate(userName);
 
             if (year == 0 && month == 0)
