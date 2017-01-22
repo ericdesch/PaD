@@ -25,13 +25,13 @@ namespace PaD.CustomFilters
         #endregion
 
         #region Constructors
-        public TrackPageViewAttribute()
-        {
-            // Get the classes that IDbContext, ILogger, and ICacheProvider resolve to as bound in NinjectDependencyResolver.
-            _databaseContext = (IDbContext)DependencyResolver.Current.GetService(typeof(IDbContext));
-            _logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
-            _cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
-        }
+        //public TrackPageViewAttribute()
+        //{
+        //    // Get the classes that IDbContext, ILogger, and ICacheProvider resolve to as bound in NinjectDependencyResolver.
+        //    _databaseContext = (IDbContext)DependencyResolver.Current.GetService(typeof(IDbContext));
+        //    _logger = (ILoggerProvider)DependencyResolver.Current.GetService(typeof(ILoggerProvider));
+        //    _cache = (ICacheProvider)DependencyResolver.Current.GetService(typeof(ICacheProvider));
+        //}
 
         public TrackPageViewAttribute(IDbContext databaseContext, ILoggerProvider logger, ICacheProvider cache)
         {

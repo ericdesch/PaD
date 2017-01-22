@@ -72,9 +72,8 @@ namespace PaD.App_Start
             kernel.Bind<IDbContext>().To<PaDDb>().InRequestScope();
             kernel.Bind<ILoggerProvider>().To<NLogLoggerProvider>().InSingletonScope();
             kernel.Bind<ICacheProvider>().To<MemoryCacheProvider>().InSingletonScope();
-            //kernel.Bind<IdentityDb>().ToSelf().InSingletonScope();
 
-            kernel.BindFilter<TrackPageViewAttribute>(FilterScope.Action, 0);
+            //kernel.BindFilter<TrackPageViewAttribute>(FilterScope.Action, 0);
         }        
     }
 }

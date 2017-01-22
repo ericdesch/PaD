@@ -87,7 +87,8 @@ namespace PaD.Controllers
             PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
 
             // Server side validation to make sure we don't violate unqiue constraint on photo date and project id.
-            Photo photo = await photoManager.FindAsync(p => p.Date == viewModel.Date && p.ProjectId == UserDefaultProjectId);
+            int userDefaultProjectId = UserDefaultProjectId;
+            Photo photo = await photoManager.FindAsync(p => p.Date == viewModel.Date && p.ProjectId == userDefaultProjectId);
             if (photo != null)
             {
                 ModelState.AddModelError("Date", "There is already a photo for that date.");
@@ -99,13 +100,12 @@ namespace PaD.Controllers
             }
 
             // Set the ProjectId to be the logged-in user's default ProjectId
-            viewModel.ProjectId = UserDefaultProjectId;
+            viewModel.ProjectId = userDefaultProjectId;
 
             Photo addedPhoto = await photoManager.AddAsync(viewModel);
 
             // Redirect to the month view for the added photo.
             return RedirectToAction("Index", "Month", new { @username = User.Identity.Name, @year = addedPhoto.Date.Year, @month = addedPhoto.Date.Month });
-
         }
         #endregion
 
