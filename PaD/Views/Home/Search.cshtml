@@ -6,12 +6,14 @@
 <h2>@ViewBag.Title</h2>
 
 @using (Ajax.BeginForm("Search",
-     new AjaxOptions
-     {
-         HttpMethod = "POST",
-         UpdateTargetId = "searchResults",
-         InsertionMode = InsertionMode.Replace
-     }))
+    null,
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "searchResults",
+        InsertionMode = InsertionMode.Replace
+    },
+    new { id = "searchForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -76,7 +78,17 @@
 
         $(document).ready(function () {
 
+            $("#searchForm").submit(function (event) {
+
+                doPushState();
+            });
+
             $(document).on("click", "#contentPager a[href]", function () {
+
+                // get page of clicked anchor
+                page = $(this).text();
+                doPushState(page);
+
                 $.ajax({
                     url: $(this).attr("href"),
                     data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
@@ -86,14 +98,109 @@
                         $('#searchResults').html(result);
                     }
                 });
+
                 return false;
             });
+
+            window.onpopstate = function (e) {
+
+                if (!e.state.myTag) return;
+
+                var queryString = decodeURIComponent(getFragmentParameter("q"));
+                //if (queryString == null) {
+                //    queryString = '';
+                //}
+                $("#QueryString").val(queryString);
+                var userName = decodeURIComponent(getFragmentParameter("u"));
+                //if (userName == null) {
+                //    userName = '';
+                //}
+                $("#UserName").val(userName);
+                var potm = getFragmentParameter("m") == "true";
+                $("#IsPhotoOfTheMonth").prop('checked', potm);
+                var poty = getFragmentParameter("y") == "true";
+                $("#IsPhotoOfTheYear").prop('checked', poty);
+                var page = decodeURIComponent(getFragmentParameter("p"));
+                if (page == '') {
+                    page = 1;
+                }
+
+                // rest form
+                if (queryString == '' &&
+                        userName == '' &&
+                        poty == false &&
+                        poty == false) {
+
+                    $('#searchResults').html('');
+                    return;
+                }
+
+                var url = "/Home/Search?queryString=" + queryString +
+                            "&userName=" + userName +
+                            "&isPhotoOfTheMonth=" + potm +
+                            "&isPhotoOfTheYear=" + poty +
+                            "&page=" + page;
+
+                $.ajax({
+                    url: url,
+                    data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
+                    type: 'POST',
+                    cache: false,
+                    success: function (result) {
+                        $('#searchResults').html(result);
+                    }
+                });
+            };
 
             $(document).on("click", ":reset", function () {
                 $("#searchResults").html("");
                 return true;
             });
+
+            var getFragmentParameter = function getFragmentParameter(sParam) {
+
+                //var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                var hash = window.location.hash;
+                if (hash == null || hash == '') {
+                    return '';
+                }
+                
+                hash = hash.substring(1); // remove '#' character
+                var sPageURL = decodeURIComponent(hash),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : sParameterName[1];
+                    }
+                }
+            };
         });
+
+        var doPushState = function (page) {
+
+            //var page = $("#contentPager li.active a").text();
+            if (page == null || page == '') {
+                page = 1;
+            }
+
+            var url = "/home/search";
+            var hashString = "#q=" + encodeURIComponent($("#QueryString").val())
+                + "&u=" + encodeURIComponent($("#UserName").val())
+                + "&m=" + $("#IsPhotoOfTheMonth").is(":checked")
+                + "&y=" + $("#IsPhotoOfTheYear").is(":checked")
+                + "&p=" + page;
+
+            history.pushState({ myTag: true }, '', url + hashString);
+        }
+
+        window.onload = function (e) {
+            history.replaceState({ myTag: true }, null, document.URL);
+        }
 
     </script>
 }

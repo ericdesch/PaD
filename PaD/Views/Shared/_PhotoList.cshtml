@@ -32,7 +32,7 @@
                     var imgSrc = item.ThumbnailImage.ImgSrc;
                     var url = item.GetUrl(item.UserName);
                 }
-                <a href="@url">
+                <a href="@url" onclick="doPushState($('#contentPager li.active a').text());">
                     <img src="@imgSrc" title="@item.Title" alt="@item.Alt" class="img-responsive" />
                 </a>
             </td>

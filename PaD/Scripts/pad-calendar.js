@@ -183,7 +183,7 @@ var updateView = function (date) {
 
             // Set the title after pushing the state, otherwise the browser history will show the wrong
             // title.
-            if (urlFormat == '/{0}/{1}/{2}') {
+            if (urlFormat === '/{0}/{1}/{2}') {
                 // month view
                 document.title = "PaD: " + date.format("MMMM YYYY");
             }
