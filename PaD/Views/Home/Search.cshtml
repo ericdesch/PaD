@@ -78,6 +78,13 @@
 
         $(document).ready(function () {
 
+            // Set the form to the values reflected in the url (if any).
+            var queryParameters = getQueryParameters();
+            $("#QueryString").val(decodeURIComponent(queryParameters.queryString));
+            $("#UserName").val(decodeURIComponent(queryParameters.userName));
+            $("#IsPhotoOfTheMonth").prop('checked', queryParameters.isPhotoOfTheMonth);
+            $("#IsPhotoOfTheYear").prop('checked', queryParameters.isPhotoOfTheYear);
+
             $("#searchForm").submit(function (event) {
 
                 doPushState();
@@ -86,11 +93,12 @@
             $(document).on("click", "#contentPager a[href]", function () {
 
                 // get page of clicked anchor
-                page = $(this).text();
+                var page = getParameterByName("page", $(this).attr('href'));
+
                 doPushState(page);
 
                 $.ajax({
-                    url: $(this).attr("href"),
+                    url: window.location.href,
                     data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
                     type: 'POST',
                     cache: false,
@@ -102,103 +110,135 @@
                 return false;
             });
 
-            window.onpopstate = function (e) {
-
-                if (!e.state.myTag) return;
-
-                var queryString = decodeURIComponent(getFragmentParameter("q"));
-                //if (queryString == null) {
-                //    queryString = '';
-                //}
-                $("#QueryString").val(queryString);
-                var userName = decodeURIComponent(getFragmentParameter("u"));
-                //if (userName == null) {
-                //    userName = '';
-                //}
-                $("#UserName").val(userName);
-                var potm = getFragmentParameter("m") == "true";
-                $("#IsPhotoOfTheMonth").prop('checked', potm);
-                var poty = getFragmentParameter("y") == "true";
-                $("#IsPhotoOfTheYear").prop('checked', poty);
-                var page = decodeURIComponent(getFragmentParameter("p"));
-                if (page == '') {
-                    page = 1;
-                }
-
-                // rest form
-                if (queryString == '' &&
-                        userName == '' &&
-                        poty == false &&
-                        poty == false) {
-
-                    $('#searchResults').html('');
-                    return;
-                }
-
-                var url = "/Home/Search?queryString=" + queryString +
-                            "&userName=" + userName +
-                            "&isPhotoOfTheMonth=" + potm +
-                            "&isPhotoOfTheYear=" + poty +
-                            "&page=" + page;
-
-                $.ajax({
-                    url: url,
-                    data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
-                    type: 'POST',
-                    cache: false,
-                    success: function (result) {
-                        $('#searchResults').html(result);
-                    }
-                });
-            };
-
             $(document).on("click", ":reset", function () {
                 $("#searchResults").html("");
                 return true;
             });
 
-            var getFragmentParameter = function getFragmentParameter(sParam) {
-
-                //var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                var hash = window.location.hash;
-                if (hash == null || hash == '') {
-                    return '';
-                }
-                
-                hash = hash.substring(1); // remove '#' character
-                var sPageURL = decodeURIComponent(hash),
-                    sURLVariables = sPageURL.split('&'),
-                    sParameterName,
-                    i;
-
-                for (i = 0; i < sURLVariables.length; i++) {
-                    sParameterName = sURLVariables[i].split('=');
-
-                    if (sParameterName[0] === sParam) {
-                        return sParameterName[1] === undefined ? true : sParameterName[1];
-                    }
-                }
-            };
         });
+
+        window.onpopstate = function (e) {
+
+            // If we didn't push this state, then don't handle it.
+            if (!e.state.myTag) return;
+
+            // Populate form controls with values in URL.
+            var queryParameters = getQueryParameters();
+
+            $("#QueryString").val(decodeURIComponent(queryParameters.queryString));
+            $("#UserName").val(decodeURIComponent(queryParameters.userName));
+            $("#IsPhotoOfTheMonth").prop('checked', queryParameters.isPhotoOfTheMonth);
+            $("#IsPhotoOfTheYear").prop('checked', queryParameters.isPhotoOfTheYear);
+
+            // If values are all at reset state, reset the form
+            if (queryParameters.queryString == '' &&
+                    queryParameters.userName == '' &&
+                    queryParameters.isPhotoOfTheMonth == false &&
+                    queryParameters.isPhotoOfTheYear == false) {
+
+                $('#searchResults').html('');
+                return;
+            }
+
+            // URL to get the search data
+            var url = "/Home/Search?queryString=" + queryParameters.queryString +
+                        "&userName=" + queryParameters.userName +
+                        "&isPhotoOfTheMonth=" + queryParameters.isPhotoOfTheMonth +
+                        "&isPhotoOfTheYear=" + queryParameters.isPhotoOfTheYear +
+                        "&page=" + queryParameters.page;
+
+            $.ajax({
+                url: url,
+                data: AddAntiForgeryToken({ id: parseInt($(this).attr("title")) }),
+                type: 'POST',
+                cache: false,
+                success: function (result) {
+                    $('#searchResults').html(result);
+                }
+            });
+        }
 
         var doPushState = function (page) {
 
-            //var page = $("#contentPager li.active a").text();
             if (page == null || page == '') {
                 page = 1;
             }
 
+            // Build the URl and query string to push
             var url = "/home/search";
-            var hashString = "#q=" + encodeURIComponent($("#QueryString").val())
-                + "&u=" + encodeURIComponent($("#UserName").val())
-                + "&m=" + $("#IsPhotoOfTheMonth").is(":checked")
-                + "&y=" + $("#IsPhotoOfTheYear").is(":checked")
-                + "&p=" + page;
+            var queryString = "?queryString=" + encodeURIComponent($("#QueryString").val())
+                + "&userName=" + encodeURIComponent($("#UserName").val())
+                + "&isPhotoOfTheMonth=" + $("#IsPhotoOfTheMonth").is(":checked")
+                + "&isPhotoOfTheYear=" + $("#IsPhotoOfTheYear").is(":checked")
+                + "&page=" + page;
 
-            history.pushState({ myTag: true }, '', url + hashString);
+            history.pushState({ myTag: true }, '', url + queryString);
         }
 
+        var getQueryParameters = function () {
+
+            var queryString = getParameterByName("queryString");
+            if (!queryString) {
+                queryString = ""
+            }
+
+            var userName = getParameterByName("userName");
+            if (!userName) {
+                userName = ""
+            }
+
+            var isPhotoOfTheMonth = getParameterByName("isPhotoOfTheMonth") == "true";
+            var isPhotoOfTheYear = getParameterByName("isPhotoOfTheYear") == "true";
+
+            var page = getParameterByName("page");
+            if (!page) {
+                page = 1;
+            }
+            else {
+                page = decodeURIComponent(page);
+            }
+
+            var obj = {
+                queryString: queryString,
+                userName: userName,
+                isPhotoOfTheMonth: isPhotoOfTheMonth,
+                isPhotoOfTheYear: isPhotoOfTheYear,
+                page: page
+            };
+
+            return obj;
+        }
+
+        var getParameterByName = function(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        //var getQueryParameter = function getQueryParameter(sParam) {
+
+        //    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        //        sURLVariables = sPageURL.split('&'),
+        //        sParameterName,
+        //        i;
+
+        //    for (i = 0; i < sURLVariables.length; i++) {
+        //        sParameterName = sURLVariables[i].split('=');
+
+        //        if (sParameterName[0] === sParam) {
+        //            return sParameterName[1] === undefined ? true : sParameterName[1];
+        //        }
+        //    }
+        //};
+
         window.onload = function (e) {
+
             history.replaceState({ myTag: true }, null, document.URL);
         }
 

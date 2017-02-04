@@ -18,6 +18,7 @@ using PaD.DataContexts;
 using PaD.DAL;
 using Fooz.Logging;
 using Fooz.Caching;
+using PaD.CustomFilters;
 
 namespace PaD.Controllers
 {
@@ -42,8 +43,29 @@ namespace PaD.Controllers
         }
 
         // GET: /Home/Search
-        public ActionResult Search()
+        public async Task<ActionResult> Search()
         {
+            // check for pushstate arguments
+            if (Request.QueryString.AllKeys.Contains("queryString"))
+            {
+                string queryString = Request.QueryString["queryString"];
+                string userName = Request.QueryString["userName"];
+                bool isPhotoOfTheMonth = false;
+                bool.TryParse(Request.QueryString["isPhotoOfTheMonth"], out isPhotoOfTheMonth);
+                bool isPhotoOfTheYear = false;
+                bool.TryParse(Request.QueryString["isPhotoOfTheYear"], out isPhotoOfTheYear);
+                int page = 1;
+                int.TryParse(Request.QueryString["page"], out page);
+
+                var photos = await PerformSearch(queryString, userName, isPhotoOfTheMonth, isPhotoOfTheYear, page);
+                if (Request.IsAjaxRequest())
+                {
+                    return PartialView("_PhotoList", photos);
+                }
+
+                return View(photos);
+            }
+
             return View();
         }
 
@@ -52,23 +74,22 @@ namespace PaD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Search(string queryString, string userName, bool isPhotoOfTheMonth, bool isPhotoOfTheYear, int page = 1)
         {
-            int pageSize = 10;
-
-            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
-            var photos = await photoManager.SearchAsync(queryString, userName, isPhotoOfTheMonth, isPhotoOfTheYear, page, pageSize);
-
-            // Pass values through the ViewBag so we can re-submit them when user clicks the Pager
-            ViewBag.QueryString = queryString;
-            ViewBag.UserName = userName;
-            ViewBag.isPhotoOfTheMonth = isPhotoOfTheMonth;
-            ViewBag.isPhotoOfTheYear = isPhotoOfTheYear;
-
+            var photos = await PerformSearch(queryString, userName, isPhotoOfTheMonth, isPhotoOfTheYear, page);
             if (Request.IsAjaxRequest())
             {
                 return PartialView("_PhotoList", photos);
             }
 
             return View(photos);
+        }
+        private async Task<PagedList.IPagedList<PhotoViewModel>> PerformSearch(string queryString, string userName, bool isPhotoOfTheMonth, bool isPhotoOfTheYear, int page)
+        {
+            int pageSize = 10;
+
+            PhotoManager photoManager = new PhotoManager(DatabaseContext, Logger, Cache);
+            var photos = await photoManager.SearchAsync(queryString, userName, isPhotoOfTheMonth, isPhotoOfTheYear, page, pageSize);
+
+            return photos;
         }
 
         public ActionResult About()

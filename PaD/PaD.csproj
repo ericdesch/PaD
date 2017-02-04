@@ -254,6 +254,7 @@
     <Compile Include="Controllers\WebApi\TestApiController.cs" />
     <Compile Include="CustomFilters\AuthorizeRolesAttribute.cs" />
     <Compile Include="CustomFilters\CustomRequireHttpsFilter.cs" />
+    <Compile Include="CustomFilters\NoCacheAttribute.cs" />
     <Compile Include="CustomFilters\RemoteRequireHttpsAttribute.cs" />
     <Compile Include="CustomFilters\RequireEmailConfirmed.cs" />
     <Compile Include="CustomFilters\TrackPageViewAttribute.cs" />
